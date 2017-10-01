@@ -1,80 +1,11 @@
-CHANGELOG
-
-Version 2.1
+Version x.y
 ===========
 
 [New Features]
-- Ability to hide the collection sidebar from the view menu
-- Polish traslation added (thanks to MCbx)
 
 [Improvements]
-- Dropbox API migration to v2 (v1 will stop working by 2017-06-28)
-- Updated Qt to 5.9 (User interface library) for better compatibility with Windows 10 and macOS Sierra
 
 [Bug Fixes]
-- Fixed crash when adding a new collection
-- Collection list is not updated correctly when a new collection is added or deleted
-
-
-Version 2.0
-===========
-
-[New Features]
-- #11 #12 #16 New fields for web links and email addresses
-
-[Improvements]
-- Migration from Qt4 to Qt5 (User interface library)
-- Updated Dropbox certificates (Old ones are valid until August 2016)
-- Implemented database version checking and upgrading on format change
-- Updated about dialog to include github project link
-- Compiler warning fixes
-
-[Bug Fixes]
-- #19 Unable to restore from backup on windows caused by improper sample image file permissions
-
-
-Version 1.2
-===========
-
-[New Features]
-- Symphytum is now open source
-- Proprietary artwork replaced with permissive icons and images
-- German translation added
-
-[Improvements]
-- Source code translation and localization capabilities for future interface translation work
-
-[Bug Fixes]
-- #1 OS X 10.6 error, python .pyc files have bad magic number
-- #7 Display correct text string of progress data in table view
-
-
-Version 1.1
-===========
-
-[New Features]
-- New appearance option for dark toolbar (Ambiance theme) on Linux
-
-[Improvements]
-- Last used record is now saved and restored when changing between collections
-- Performance of form view has been noticeably improved
-- Selection of a field in the form view can now be cleared by pressing the escape key
-- The clean database menu action "Menu->Tools->Database->Free unused space" now includes the removal
-  of obsolete files, which are no longer linked to any specific record
-
-[Bug Fixes]
-- Fields with identical names are now correctly identified and handled by form view
-- CSV exporting generates no longer an invalid column/content structure when records contain multiple new lines
-- Form view is no longer disabled when adding a new record after a search operation with no results
-- Form view scrolls now correctly the viewport to ensures visibility of the last selected field in table view mode
-- Field name is now correctly loaded when editing an existing field of creation date type and last modification date type
-- Incorrect records are no longer restored after adding, removing or modifying a field, during an active search filter
-- Alarms are now set to fire at midnight (time 00:00) if new records have date fields without the time format spec
-- Alarms are no longer incorrectly modified when enabling reminders for date fields with existing records
-- Alarms are now correctly enabled/disabled when a field modification is triggered by undo/redo
-- Last used collection is now correctly selected after a cloud sync session, where collections have been deleted
-- Image fields are now scaling correctly the size of the content image, after changing from table view to form view
-- Minor UI bugfixes
 
 
 Version 1.0
