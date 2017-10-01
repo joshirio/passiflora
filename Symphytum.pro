@@ -213,5 +213,5 @@ FORMS += \
 
 TRANSLATIONS = stuff/translations/symphytum_de.ts
 
-ICON = resources/images/icons/symphytum.icns # for mac
-RC_FILE = resources/symphytum.rc # for windows
+ICON = resources/images/icons/passiflora.icns # for mac
+RC_FILE = resources/passiflora.rc # for windows
