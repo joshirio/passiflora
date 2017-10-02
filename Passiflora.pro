@@ -7,11 +7,11 @@
 QT       += core gui sql network svg widgets printsupport
 
 macx {
-    TARGET = Symphytum
+    TARGET = Passiflora
 }
 
 unix:!macx|win32 {
-    TARGET = symphytum
+    TARGET = passiflora
 }
 
 
@@ -211,7 +211,7 @@ FORMS += \
     ui/urlfieldwizard.ui \
     ui/emailfieldwizard.ui
 
-TRANSLATIONS = stuff/translations/symphytum_de.ts
+TRANSLATIONS = stuff/translations/passiflora_de.ts
 
 ICON = resources/images/icons/passiflora.icns # for mac
 RC_FILE = resources/passiflora.rc # for windows

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2012 Giorgio Wicklein <giorgio.wicklein@giowisys.com>
+ *  Copyright (c) 2012 Giorgio Wicklein <giowckln@gmail.com>
  */
 
 //-----------------------------------------------------------------------------
@@ -25,32 +25,32 @@ int main(int argc, char *argv[])
     //or it won't work at all
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QtSingleApplication symphytumApp(argc, argv);
-    symphytumApp.setApplicationName(DefinitionHolder::NAME);
-    symphytumApp.setApplicationVersion(DefinitionHolder::VERSION);
-    symphytumApp.setOrganizationName(DefinitionHolder::COMPANY);
-    symphytumApp.setOrganizationDomain(DefinitionHolder::DOMAIN_NAME);
-    symphytumApp.setWindowIcon(QIcon(":/images/icons/symphytum.png"));
+    QtSingleApplication passifloraApp(argc, argv);
+    passifloraApp.setApplicationName(DefinitionHolder::NAME);
+    passifloraApp.setApplicationVersion(DefinitionHolder::VERSION);
+    passifloraApp.setOrganizationName(DefinitionHolder::COMPANY);
+    passifloraApp.setOrganizationDomain(DefinitionHolder::DOMAIN_NAME);
+    passifloraApp.setWindowIcon(QIcon(":/images/icons/passiflora.png"));
 
     //only one instance allowed
-    if (symphytumApp.sendMessage("Wake up!"))
+    if (passifloraApp.sendMessage("Wake up!"))
         return 0;
 
     //setup translations
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(),
                       ":/languages");
-    symphytumApp.installTranslator(&qtTranslator);
+    passifloraApp.installTranslator(&qtTranslator);
     QTranslator myappTranslator;
-    myappTranslator.load("symphytum_" + QLocale::system().name(), ":/languages");
-    symphytumApp.installTranslator(&myappTranslator);
+    myappTranslator.load("passiflora_" + QLocale::system().name(), ":/languages");
+    passifloraApp.installTranslator(&myappTranslator);
 
     //init gui
     MainWindow w;
     w.show();
 
     //wake up window
-    symphytumApp.setActivationWindow(&w);
+    passifloraApp.setActivationWindow(&w);
 
-    return symphytumApp.exec();
+    return passifloraApp.exec();
 }
