@@ -94,8 +94,6 @@ SOURCES += main.cpp\
     components/alarmmanager.cpp \
     widgets/alarmlistdialog.cpp \
     widgets/printdialog.cpp \
-    widgets/exportdialog.cpp \
-    widgets/importdialog.cpp \
     widgets/aboutdialog.cpp \
     widgets/form_widgets/urlformwidget.cpp \
     widgets/field_widgets/urlfieldwizard.cpp \
@@ -175,8 +173,6 @@ HEADERS  += widgets/mainwindow.h \
     components/alarmmanager.h \
     widgets/alarmlistdialog.h \
     widgets/printdialog.h \
-    widgets/exportdialog.h \
-    widgets/importdialog.h \
     widgets/aboutdialog.h \
     widgets/form_widgets/urlformwidget.h \
     widgets/field_widgets/urlfieldwizard.h \

@@ -109,8 +109,6 @@ private slots:
     void selectAllActionTriggered();
     void backupActionTriggered();
     void printActionTriggered();
-    void exportActionTriggered();
-    void importActionTriggered();
 
     /** Create and show alarm list dialog */
     void showAlarmListDialog();
@@ -224,8 +222,6 @@ private:
     QAction *m_checkUpdatesAction;
     QAction *m_showAlarmDialogAction;
     QAction *m_printAction;
-    QAction *m_exportAction;
-    QAction *m_importAction;
 #ifdef Q_OS_OSX
     QAction *m_minimizeAction;
     QAction *m_closeWindowAction;

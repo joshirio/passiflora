@@ -26,8 +26,6 @@
 #include "preferencesdialog.h"
 #include "backupdialog.h"
 #include "printdialog.h"
-#include "exportdialog.h"
-#include "importdialog.h"
 #include "alarmlistdialog.h"
 #include "aboutdialog.h"
 #include "../components/updatemanager.h"
@@ -1246,88 +1244,6 @@ void MainWindow::printActionTriggered()
     this->activateWindow();
 }
 
-void MainWindow::exportActionTriggered()
-{
-    if ((!m_currentModel) || (!m_currentModel->rowCount())) {
-        QMessageBox box(QMessageBox::Information, tr("Export aborted"),
-                        tr("There are no records to export!"),
-                        QMessageBox::NoButton,
-                        this);
-        box.setWindowModality(Qt::WindowModal);
-        box.exec();
-        return;
-    }
-
-    QList<int> recordIdList; //ids of records to export
-
-    if (m_currentViewMode == FormViewMode) {
-        //get current record id
-        int currentRow = m_formView->getCurrentRow();
-        QModelIndex index = m_currentModel->index(currentRow, 0);
-        if (index.isValid()) {
-            bool ok;
-            int recordId = index.data().toInt(&ok);
-            if (ok)
-                recordIdList.append(recordId);
-        }
-
-    } else { //table view
-        QModelIndexList indexes = m_tableView->selectionModel()->selectedIndexes();
-        QSet<int> rows;
-        int indexesSize = indexes.size();
-        for (int i = 0; i < indexesSize; i++) {
-            rows.insert(indexes.at(i).row());
-        }
-
-        QList<int> rowList = rows.toList();
-        int size = rowList.size();
-        QModelIndex index;
-        //extract record ids
-        for (int i = 0; i < size; i++) {
-            index = m_currentModel->index(rowList.at(i), 0);
-            if (index.isValid()) {
-                bool ok;
-                int recordId = index.data().toInt(&ok);
-                if (ok)
-                    recordIdList.append(recordId);
-            }
-        }
-    }
-
-    //export dialog
-    ExportDialog d(m_metadataEngine->getCurrentCollectionId(),
-                  recordIdList,
-                  this);
-    d.exec();
-
-    //set focus back (workaround)
-    this->activateWindow();
-}
-
-void MainWindow::importActionTriggered()
-{
-    if (SyncSession::IS_READ_ONLY) {
-        QMessageBox box(QMessageBox::Information, tr("Import not available"),
-                        tr("Import is disabled due read-only session!"),
-                        QMessageBox::NoButton,
-                        this);
-        box.setWindowModality(Qt::WindowModal);
-        box.exec();
-        return;
-    }
-
-    //export dialog
-    ImportDialog d(this);
-    d.exec();
-
-    //refresh collection list view
-    m_dockWidget->getCollectionListView()->detachModel();
-    m_dockWidget->getCollectionListView()->attachModel();
-
-    //set focus back (workaround)
-    this->activateWindow();
-}
-
 void MainWindow::showAlarmListDialog()
 {
     if (!m_alarmListDialog) {
@@ -1641,12 +1557,6 @@ void MainWindow::createActions()
     m_printAction = new QAction(tr("Print..."), this);
     m_printAction->setStatusTip(tr("Print records or export them as PDF"));
     m_printAction->setShortcut(QKeySequence::Print);
-
-    m_importAction = new QAction(tr("Import..."), this);
-    m_importAction->setStatusTip(tr("Import existing records to the database"));
-
-    m_exportAction = new QAction(tr("Export..."), this);
-    m_exportAction->setStatusTip(tr("Export all or only selected records"));
 }
 
 void MainWindow::createToolBar()
@@ -1722,9 +1632,6 @@ void MainWindow::createMenu()
     m_fileMenu->addAction(m_backupAction);
     m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_printAction);
-    m_fileMenu->addSeparator();
-    m_fileMenu->addAction(m_importAction);
-    m_fileMenu->addAction(m_exportAction);
     m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_quitAction);
 
@@ -1853,10 +1760,6 @@ void MainWindow::createConnections()
             this, SLOT(showAlarmListDialog()));
     connect(m_printAction, SIGNAL(triggered()),
             this, SLOT(printActionTriggered()));
-    connect(m_exportAction, SIGNAL(triggered()),
-            this, SLOT(exportActionTriggered()));
-    connect(m_importAction, SIGNAL(triggered()),
-            this, SLOT(importActionTriggered()));
 
     //record actions
     connect(m_newRecordAction, SIGNAL(triggered()),
