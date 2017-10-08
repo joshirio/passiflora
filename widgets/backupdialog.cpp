@@ -102,7 +102,7 @@ void BackupDialog::chooseNextButtonClicked()
         QString documentsDir = QStandardPaths::standardLocations(
                     QStandardPaths::DocumentsLocation).at(0);
         QString fileName = QDateTime::currentDateTime()
-                .toString("yyyy_MM_dd_hhmm").append("_backup.syb");
+                .toString("yyyy_MM_dd_hhmm").append("_backup.psfb");
         QString defaultDest = documentsDir + "/" + fileName;
         ui->exportDestLineEdit->setText(defaultDest);
     } else {
@@ -124,11 +124,11 @@ void BackupDialog::exportBrowseButtonClicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                                     ui->exportDestLineEdit->text(),
-                                                    tr("Symphytum Backup(*.syb)"));
+                                                    tr("Passiflora Backup(*.psfb)"));
     if (fileName.isEmpty())
         return;
-    if (!fileName.contains(".syb"))
-        fileName.append(".syb");
+    if (!fileName.contains(".psfb"))
+        fileName.append(".psfb");
     ui->exportDestLineEdit->setText(fileName);
 }
 
@@ -138,7 +138,7 @@ void BackupDialog::importBrowseButtonClicked()
                 QStandardPaths::DocumentsLocation).at(0);
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     documentsDir,
-                                                    tr("Symphytum Backup(*.syb)"));
+                                                    tr("Passiflora Backup(*.psfb)"));
     if (fileName.isEmpty())
         return;
     ui->importDestLineEdit->setText(fileName);

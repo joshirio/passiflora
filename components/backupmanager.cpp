@@ -31,7 +31,7 @@ BackupTask::BackupTask(const QString &filesDir,
     m_filesDir = filesDir;
     m_dbPath = databasePath;
 
-    m_magicNumber = 0x53594D50; //SYMP
+    m_magicNumber = 0x50415353; //PASS
     m_fileBufSize = 5242880;
 }
 
