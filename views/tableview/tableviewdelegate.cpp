@@ -15,7 +15,6 @@
 #include "../../utils/metadatapropertiesparser.h"
 #include "../../widgets/mainwindow.h"
 #include "../../components/undocommands.h"
-#include "../../components/sync_framework/syncsession.h"
 #include "../../components/filemanager.h"
 #include "tableview.h"
 #include "../../components/alarmmanager.h"
@@ -496,9 +495,6 @@ void TableViewDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                             oldData, newData);
                 stack->push(cmd);
             }
-
-            //sync set local data changed
-            SyncSession::LOCAL_DATA_CHANGED = true;
         }
 
         model->setData(index, data);

@@ -36,7 +36,6 @@ class QAbstractItemModel;
 class MetadataEngine;
 class AddFieldDialog;
 class QUndoStack;
-class SyncEngine;
 class UpdateManager;
 class AlarmListDialog;
 
@@ -97,7 +96,6 @@ private slots:
     void duplicateRecordActionTriggered();
     void deleteRecordActionTriggered();
     void newCollectionActionTriggered();
-    void syncReadOnlyActionTriggered();
     void deleteCollectionActionTriggered();
     void deleteAllRecordsActionTriggered();
     void optimizeDbSizeActionTriggered();
@@ -117,16 +115,6 @@ private slots:
     void showRecordfromAlarm(int collectionId,
                              int fieldId,
                              int recordId);
-
-    //sync slots
-    void syncActionTriggered();
-    void syncErrorSlot(const QString &message);
-    void syncClientAlreadyLoggedInSlot();
-    void syncSessionKeyChangedSlot();
-    void syncNewRevisionAvailableSlot();
-    void syncRevisionConflictSlot();
-    void syncAuthTokenExpiredSlot();
-    void syncStatusChanged();
 
     //updates
     void checkForUpdatesSlot();
@@ -164,21 +152,6 @@ private:
     /** Detach model from collection list view */
     void detachCollectionModelView();
 
-    /** If sync is configured start session */
-    void initSync();
-
-    /**
-     * Show SyncProgressDialog and start sync
-     * @param autoclose - whether the dialog should be auto-closed after sync
-     */
-    void showSyncDialog(bool autoclose = false);
-
-    /** Create sync specific connections */
-    void createSyncConnections();
-
-    /** Remove connections to sync components */
-    void removeSyncConnections();
-
     /** Check if there are any alarm triggers to show in the AlarmListDialog */
     void checkAlarmTriggers();
 
@@ -189,7 +162,6 @@ private:
     QMenu *m_newMenu;
     QMenu *m_editMenu;
     QMenu *m_toolsMenu;
-    QMenu *m_cloudMenu;
     QMenu *m_recordsMenu;
     QMenu *m_databaseMenu;
     QMenu *m_viewMenu;
@@ -216,8 +188,6 @@ private:
     QAction *m_toggleDockAction;
     QAction *m_deleteAllRecordsAction;
     QAction *m_optimizeDbSizeAction;
-    QAction *m_syncAction;
-    QAction *m_syncReadOnlyAction;
     QAction *m_selectAllAction;
     QAction *m_checkUpdatesAction;
     QAction *m_showAlarmDialogAction;
@@ -236,7 +206,6 @@ private:
     SettingsManager *m_settingsManager;
     MetadataEngine *m_metadataEngine;
     AddFieldDialog *m_addFieldDialog;
-    SyncEngine *m_syncEngine;
     UpdateManager *m_updateManager;
     AlarmListDialog *m_alarmListDialog;
 

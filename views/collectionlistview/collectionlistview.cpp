@@ -12,7 +12,6 @@
 #include "../../components/metadataengine.h"
 #include "../../components/settingsmanager.h"
 #include "../../components/undocommands.h"
-#include "../../components/sync_framework/syncsession.h"
 #include "../../widgets/mainwindow.h"
 #include "../../utils/collectionfieldcleaner.h"
 
@@ -92,13 +91,8 @@ CollectionListView::CollectionListView(QWidget *parent) :
 
 void CollectionListView::createNewCollection()
 {
-    if (SyncSession::IS_READ_ONLY) return;
-
     //add item
     m_model->addCollection();
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 
     //prepare collection table and metadata
     MetadataEngine::getInstance().createNewCollection();
@@ -118,7 +112,7 @@ void CollectionListView::deleteCollection()
 {
     int collectionId = MetadataEngine::getInstance().getCurrentCollectionId();
 
-    if ((collectionId == 0) || SyncSession::IS_READ_ONLY) return; //0 stands for invalid
+    if (collectionId == 0) return; //0 stands for invalid
 
     //ask for confirmation
     QMessageBox box(QMessageBox::Question, tr("Delete Collection"),
@@ -159,9 +153,6 @@ void CollectionListView::deleteCollection()
         setCurrentIndex(first);
     else
         MetadataEngine::getInstance().setCurrentCollectionId(0); //set invalid
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 
     //FIXME: temporary workaround for listview not updating the items
     //needs investigation, caused by migration from Qt4 to Qt5

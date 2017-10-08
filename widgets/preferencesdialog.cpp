@@ -9,8 +9,6 @@
 #include "preferencesdialog.h"
 #include "ui_preferencesdialog.h"
 #include "../components/settingsmanager.h"
-#include "../components/sync_framework/syncengine.h"
-#include "../components/sync_framework/syncsession.h"
 #include "../components/filemanager.h"
 #include "../utils/definitionholder.h"
 
@@ -23,7 +21,6 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog),
     m_settingsManager(0),
-    m_cloudChanged(false),
     m_softwareReset(false),
     m_appearanceChanged(false)
 {
@@ -46,10 +43,6 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
             this, SLOT(currentCategoryChanged()));
     connect(ui->updatesComboBox, SIGNAL(activated(int)),
             this, SLOT(updatesComboBoxChanged()));
-    connect(ui->cloudStatusComboBox, SIGNAL(activated(int)),
-            this, SLOT(cloudStateComboBoxChanged()));
-    connect(ui->cloudUnlinkButton, SIGNAL(clicked()),
-            this, SLOT(cloundUnlinkButtonClicked()));
     connect(ui->softwareResetButton, SIGNAL(clicked()),
             this, SLOT(softwareResetButtonClicked()));
     connect(ui->formViewColorCombo, SIGNAL(activated(int)),
@@ -78,11 +71,6 @@ PreferencesDialog::~PreferencesDialog()
         delete m_settingsManager;
 }
 
-bool PreferencesDialog::cloudSyncChanged()
-{
-    return m_cloudChanged;
-}
-
 bool PreferencesDialog::softwareResetActivated()
 {
     return m_softwareReset;
@@ -107,57 +95,6 @@ void PreferencesDialog::updatesComboBoxChanged()
 {
     m_settingsManager->saveCheckUpdates(
                 ui->updatesComboBox->currentIndex() == 0);
-}
-
-void PreferencesDialog::cloudStateComboBoxChanged()
-{
-    bool enabled = ui->cloudStatusComboBox->currentIndex();
-
-    if (enabled) {
-        if (!m_settingsManager->isCloudSyncActive()) {
-            m_settingsManager->setCloudSyncActive(true);
-            //cause conflict
-            SyncSession::LOCAL_DATA_CHANGED = true;
-            m_cloudChanged = true;
-        }
-    } else {
-        if ((!SyncSession::IS_READ_ONLY) && SyncSession::IS_ONLINE) {
-            SyncEngine::getInstance().startCloseCloudSession();
-        }
-        SyncSession::IS_ONLINE = false;
-        SyncSession::IS_ENABLED = false;
-        SyncSession::IS_READ_ONLY = false;
-        m_settingsManager->setCloudSyncActive(false);
-        //cause conflict
-        m_settingsManager->saveCloudLocalDataChanged(true);
-        m_settingsManager->saveCloudSessionKey("invalid");
-        m_cloudChanged = true;
-    }
-}
-
-void PreferencesDialog::cloundUnlinkButtonClicked()
-{
-    bool close = (!SyncSession::IS_READ_ONLY) && SyncSession::IS_ONLINE;
-
-    //set state
-    SyncSession::IS_ONLINE = false;
-    SyncSession::IS_ENABLED = false;
-    SyncSession::IS_READ_ONLY = false;
-
-    //close session if open
-    if (close) {
-        SyncEngine::getInstance().startCloseCloudSession();
-    }
-
-    //delete all cloud related settings
-    m_settingsManager->deleteObjectProperties("cloudSync");
-
-    //clear file manager's lists
-    FileManager fm(this);
-    fm.clearAllLists();
-
-    //set status disabled
-    ui->cloudStatusComboBox->setCurrentIndex(0);
 }
 
 void PreferencesDialog::softwareResetButtonClicked()
@@ -229,8 +166,6 @@ void PreferencesDialog::loadSettings()
 {
     if (!m_settingsManager->restoreCheckUpdates())
         ui->updatesComboBox->setCurrentIndex(1);
-    if (m_settingsManager->isCloudSyncActive())
-        ui->cloudStatusComboBox->setCurrentIndex(1);
 
     //form view background color
     int colorCodeIndex = m_settingsManager->restoreProperty(

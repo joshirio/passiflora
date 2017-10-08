@@ -8,7 +8,6 @@
 
 #include "metadatapropertiesparser.h"
 #include "formwidgetvalidator.h"
-#include "../components/sync_framework/syncsession.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QString>
@@ -37,13 +36,6 @@ bool FormWidgetValidator::validate(const QVariant &inputData,
                                    QString &errorMessage)
 {
     bool valid = true;
-
-    //if read-only mode, reject
-    if (SyncSession::IS_READ_ONLY) {
-        errorMessage.append(QObject::tr("Read-only mode: "
-                                        "Editing is not allowed."));
-        return false;
-    }
 
     switch (m_fieldType) {
     case MetadataEngine::TextType:

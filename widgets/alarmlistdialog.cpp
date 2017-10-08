@@ -11,7 +11,6 @@
 
 #include "../components/alarmmanager.h"
 #include "../components/metadataengine.h"
-#include "../components/sync_framework/syncsession.h"
 
 #include <QtWidgets/QTableWidgetItem>
 #include <QtWidgets/QPushButton>
@@ -124,9 +123,6 @@ void AlarmListDialog::removeButtonClicked()
             m_alarmManager->removeAlarm(id);
             ui->alarmTableWidget->removeRow(row);
             updateEmptyState();
-
-            //set local data changed
-            SyncSession::LOCAL_DATA_CHANGED = true;
         }
     }
 }

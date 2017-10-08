@@ -54,15 +54,8 @@ SOURCES += main.cpp\
     components/undocommands.cpp \
     views/collectionlistview/collectionviewdelegate.cpp \
     utils/formviewlayoutstate.cpp \
-    components/sync_framework/abstractsyncdriver.cpp \
-    components/sync_framework/dropboxsyncdriver.cpp \
-    widgets/syncconfigdialog.cpp \
     components/backupmanager.cpp \
     components/filemanager.cpp \
-    components/sync_framework/syncsession.cpp \
-    components/sync_framework/syncengine.cpp \
-    widgets/syncstatuswidget.cpp \
-    widgets/syncprocessdialog.cpp \
     utils/qtsingleapplication/qtsinglecoreapplication.cpp \
     utils/qtsingleapplication/qtsingleapplication.cpp \
     utils/qtsingleapplication/qtlockedfile.cpp \
@@ -135,15 +128,8 @@ HEADERS  += widgets/mainwindow.h \
     components/undocommands.h \
     views/collectionlistview/collectionviewdelegate.h \
     utils/formviewlayoutstate.h \
-    components/sync_framework/abstractsyncdriver.h \
-    components/sync_framework/dropboxsyncdriver.h \
-    widgets/syncconfigdialog.h \
     components/backupmanager.h \
     components/filemanager.h \
-    components/sync_framework/syncsession.h \
-    components/sync_framework/syncengine.h \
-    widgets/syncstatuswidget.h \
-    widgets/syncprocessdialog.h \
     utils/qtsingleapplication/qtsinglecoreapplication.h \
     utils/qtsingleapplication/qtsingleapplication.h \
     utils/qtsingleapplication/qtlockedfile.h \
@@ -187,8 +173,6 @@ FORMS += \
     ui/textfieldwizard.ui \
     ui/addfielddialog.ui \
     ui/numberfieldwizard.ui \
-    ui/syncconfigdialog.ui \
-    ui/syncprocessdialog.ui \
     ui/preferencesdialog.ui \
     ui/backupdialog.ui \
     ui/checkboxfieldwizard.ui \
@@ -201,7 +185,6 @@ FORMS += \
     ui/moddatefieldwizard.ui \
     ui/alarmlistdialog.ui \
     ui/printdialog.ui \
-    ui/exportdialog.ui \
     ui/importdialog.ui \
     ui/aboutdialog.ui \
     ui/urlfieldwizard.ui \

@@ -8,7 +8,6 @@
 
 #include "collectionlistmodel.h"
 #include "../components/databasemanager.h"
-#include "../components/sync_framework/syncsession.h"
 
 #include <QtSql/QSqlRecord>
 #include <QtGui/QIcon>
@@ -41,11 +40,8 @@ QVariant CollectionListModel::data(const QModelIndex &idx, int role) const
 bool CollectionListModel::setData(const QModelIndex &index,
                                   const QVariant &value, int role)
 {
-    //avoid empty collection names and check read-only mode
-    if ((!value.toString().trimmed().isEmpty()) && (!SyncSession::IS_READ_ONLY)) {
-        //set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
-
+    //avoid empty collection names
+    if (!value.toString().trimmed().isEmpty()) {
         return QSqlTableModel::setData(index, value, role);
     } else {
         return false;

@@ -39,9 +39,6 @@ public:
     explicit PreferencesDialog(QWidget *parent = 0);
     ~PreferencesDialog();
 
-    /** Return whether the cloud config has been edited */
-    bool cloudSyncChanged();
-
     /** Return whether the software reset button was clicked */
     bool softwareResetActivated();
 
@@ -51,8 +48,6 @@ public:
 private slots:
     void currentCategoryChanged();
     void updatesComboBoxChanged();
-    void cloudStateComboBoxChanged();
-    void cloundUnlinkButtonClicked();
     void softwareResetButtonClicked();
     void formViewColorComboChanged();
     void darkToolbarAmbianceCheckChanged();
@@ -63,7 +58,6 @@ private:
 
     Ui::PreferencesDialog *ui;
     SettingsManager *m_settingsManager;
-    bool m_cloudChanged;
     bool m_softwareReset;
     bool m_appearanceChanged;
 };

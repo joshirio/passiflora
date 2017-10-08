@@ -24,7 +24,6 @@
 
 class QVBoxLayout;
 class CollectionListView;
-class SyncStatusWidget;
 
 
 //-----------------------------------------------------------------------------
@@ -47,20 +46,9 @@ public:
     /** Return the collection list item view */
     CollectionListView* getCollectionListView();
 
-public slots:
-    /**
-     * Enable/disable sync status widget based on whether
-     * sync is enabled or not
-     */
-    void updateSyncStatusWidgetVisibility();
-
-    /** Update sync widget */
-    void updateSyncStatusWidget();
-
 private:
     QVBoxLayout *m_mainLayout;
     CollectionListView *m_collectionListView;
-    SyncStatusWidget *m_syncStatusWidget;
 };
 
 #endif // DOCKWIDGET_H

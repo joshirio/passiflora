@@ -8,7 +8,6 @@
 
 #include "abstractfieldwizard.h"
 #include "../../components/undocommands.h"
-#include "../../components/sync_framework/syncsession.h"
 #include "../mainwindow.h"
 
 #include <QtWidgets/QUndoCommand>
@@ -85,9 +84,6 @@ void AbstractFieldWizard::createField(MetadataEngine::FieldType fieldType,
         fieldId = meta->createField(m_fieldName, fieldType, displayProperties,
                                     editProperties, triggerProperties);
     }
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 
     //create undo action
     QUndoStack *stack = MainWindow::getUndoStack();

@@ -20,9 +20,6 @@
 #include "../models/standardmodel.h"
 #include "../views/collectionlistview/collectionlistview.h"
 #include "field_widgets/addfielddialog.h"
-#include "syncconfigdialog.h"
-#include "../components/sync_framework/syncengine.h"
-#include "syncprocessdialog.h"
 #include "preferencesdialog.h"
 #include "backupdialog.h"
 #include "printdialog.h"
@@ -88,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
     restoreSettings();
     init();
     checkAlarmTriggers();
-    initSync();
     checkForUpdatesSlot();
 
     setWindowTitle(tr("%1").arg(DefinitionHolder::NAME));
@@ -101,7 +97,6 @@ MainWindow::~MainWindow()
     detachCollectionModelView();
     delete m_settingsManager;
 
-    m_syncEngine->destroy();
     m_metadataEngine->destroy();
     DatabaseManager::destroy();
 }
@@ -139,25 +134,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //actions before shutting down
     saveSettings();
 
-    if (m_settingsManager->isCloudSyncActive() &&
-            SyncSession::IS_ONLINE &&
-            (!SyncSession::IS_READ_ONLY)) {
-
-        //sync if data changed
-        if (SyncSession::LOCAL_DATA_CHANGED)
-            showSyncDialog(true);
-
-        //close sync session
-        connect(m_syncEngine, SIGNAL(syncSessionClosed()),
-                qApp, SLOT(quit()));
-        connect(m_syncEngine, SIGNAL(connectionFailed()),
-                qApp, SLOT(quit()));
-        m_syncEngine->startCloseCloudSession();
-
-        event->ignore();
-    } else {
-        event->accept();
-    }
+    event->accept();
 }
 
 
@@ -197,21 +174,7 @@ void MainWindow::preferenceActionTriggered()
             m_toolBar->setStyleSheet("");
 #endif //Q_OS_LINUX
     }
-    if (dialog.cloudSyncChanged()) {
-        if (m_settingsManager->isCloudSyncActive()) {
-            if(m_settingsManager->isCloudSyncInitialized()) {
-                m_syncEngine->reconfigureSyncDriver();
-                initSync();
-            } else {
-                m_settingsManager->setCloudSyncActive(false);
-                syncActionTriggered();
-            }
-        } else {
-            removeSyncConnections();
-        }
-        m_dockWidget->updateSyncStatusWidgetVisibility();
-        m_dockWidget->updateSyncStatusWidget();
-    }
+
     if (dialog.softwareResetActivated()) {
         //ask for confirmation
         QMessageBox box(QMessageBox::Warning, tr("Software Reset"),
@@ -224,25 +187,6 @@ void MainWindow::preferenceActionTriggered()
         box.setWindowModality(Qt::WindowModal);
         int r = box.exec();
         if (r == QMessageBox::No) return;
-
-        //close sync session if open
-        if (SyncSession::IS_ENABLED) {
-            if (SyncSession::IS_ONLINE && (!SyncSession::IS_READ_ONLY)) {
-                QProgressDialog pd(this);
-                pd.setWindowModality(Qt::WindowModal);
-                pd.setWindowTitle(tr("Closing Session"));
-                pd.setLabelText(tr("Closing sync session... Please wait!"));
-                pd.setRange(0, 0);
-                pd.setValue(-1);
-
-                connect(m_syncEngine, SIGNAL(syncSessionClosed()),
-                        &pd, SLOT(close()));
-                m_syncEngine->startCloseCloudSession();
-
-                //wait until session is closed
-                pd.exec();
-            }
-        }
 
         QProgressDialog *pd = new QProgressDialog(this);
         pd->setWindowModality(Qt::WindowModal);
@@ -331,25 +275,11 @@ void MainWindow::tableViewModeTriggered()
 
 void MainWindow::fullscreenActionTriggered()
 {
-/*#ifdef Q_OS_OSX
-    if (QSysInfo::MacintoshVersion >= QSysInfo::MV_10_7) {
-        MacLionFullscreenProvider::toggleFullscreen(this); //mac lion fullscreen API
-    } else {
-        if (isFullScreen()) {
-            showNormal();
-            setUnifiedTitleAndToolBarOnMac(true); //workaround for QTBUG-16274
-        } else {
-            setUnifiedTitleAndToolBarOnMac(false); //workaround for QTBUG-16274
-            showFullScreen();
-        }
-    }
-#else*/
     if (isFullScreen()) {
         showNormal();
     } else {
         showFullScreen();
     }
-//#endif // Q_OS_OSX
 }
 
 void MainWindow::toggleDockActionTriggered()
@@ -413,7 +343,7 @@ void MainWindow::currentCollectionChanged()
 
 void MainWindow::newRecordActionTriggered()
 {
-    if (!m_currentModel || SyncSession::IS_READ_ONLY) return;
+    if (!m_currentModel) return;
 
     if (m_metadataEngine->getFieldCount() <= 1) { //1 cause of _id
         QMessageBox box(QMessageBox::Critical, tr("No Fields"),
@@ -446,9 +376,6 @@ void MainWindow::newRecordActionTriggered()
 
         sModel->addRecord(); //add e new empty record
 
-        //set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
-
         //create undo action
         QUndoCommand *cmd = new NewRecordCommand;
         m_undoStack->push(cmd);
@@ -470,7 +397,7 @@ void MainWindow::newRecordActionTriggered()
 
 void MainWindow::duplicateRecordActionTriggered()
 {
-    if (!m_currentModel || SyncSession::IS_READ_ONLY) return;
+    if (!m_currentModel) return;
     if (!m_currentModel->rowCount()) {
         QMessageBox box(QMessageBox::Critical, tr("Duplication Failed"),
                         tr("Failed to duplicate record!<br>"
@@ -538,9 +465,6 @@ void MainWindow::duplicateRecordActionTriggered()
         //create main undo action
         QUndoCommand *mainUndoCommand = new QUndoCommand(tr("record duplication"));
 
-        //set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
-
         //init progress dialog
         QProgressDialog progressDialog(tr("Duplicating record 0 of %1")
                                        .arg(rows.size()),
@@ -601,7 +525,7 @@ void MainWindow::duplicateRecordActionTriggered()
 
 void MainWindow::deleteRecordActionTriggered()
 {
-    if (!m_currentModel || SyncSession::IS_READ_ONLY) return;
+    if (!m_currentModel) return;
     if (!m_currentModel->rowCount()) {
         QMessageBox box(QMessageBox::Critical, tr("Deletion Failed"),
                         tr("Failed to delete record!<br>"
@@ -753,9 +677,6 @@ void MainWindow::deleteRecordActionTriggered()
                     QItemSelectionModel::SelectCurrent);
     }
 
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
-
     //set focus back (workaround)
     this->activateWindow();
 }
@@ -765,36 +686,6 @@ void MainWindow::newCollectionActionTriggered()
     m_dockWidget->createNewCollection();
 }
 
-void MainWindow::syncReadOnlyActionTriggered()
-{
-    if (!SyncSession::IS_ONLINE) {
-        m_statusBar->showMessage(tr("Cloud not connected."));
-        return;
-    }
-
-    if (SyncSession::IS_READ_ONLY) {
-        SyncSession::IS_READ_ONLY = false;
-        SyncSession::IS_ONLINE = false;
-
-        //restore modified state
-        SyncSession::LOCAL_DATA_CHANGED =
-                m_settingsManager->restoreCloudLocalDataChanged();
-
-        //show force access dialog
-        m_syncEngine->startSyncCheck();
-    } else {
-        //save modified state
-        m_settingsManager->saveCloudLocalDataChanged(SyncSession::LOCAL_DATA_CHANGED);
-
-        //close session
-        SyncSession::IS_READ_ONLY = true;
-        m_syncEngine->startCloseCloudSession();
-    }
-
-    //clear undo stack
-    m_undoStack->clear();
-}
-
 void MainWindow::deleteCollectionActionTriggered()
 {
     m_dockWidget->deleteCollection();
@@ -802,8 +693,6 @@ void MainWindow::deleteCollectionActionTriggered()
 
 void MainWindow::deleteAllRecordsActionTriggered()
 {
-    if (SyncSession::IS_READ_ONLY) return;
-
     //ask for confirmation
     QMessageBox box(QMessageBox::Question, tr("Delete All Records"),
                     tr("Are you sure you want to delete all records from the "
@@ -822,9 +711,6 @@ void MainWindow::deleteAllRecordsActionTriggered()
     //update views (hard way)
     attachModelToViews(m_metadataEngine->getCurrentCollectionId());
 
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
-
     statusBar()->showMessage(tr("All records successfully deleted"));
 
     //set focus back (workaround)
@@ -836,8 +722,6 @@ void MainWindow::deleteAllRecordsActionTriggered()
 
 void MainWindow::optimizeDbSizeActionTriggered()
 {
-    if (SyncSession::IS_READ_ONLY) return;
-
     double bytesBefore = DatabaseManager::getInstance().getDatabaseFileSize();
 
     FileManager fm(this);
@@ -902,17 +786,13 @@ void MainWindow::optimizeDbSizeActionTriggered()
     box.setWindowModality(Qt::WindowModal);
     box.exec();
 
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
-
     //clear undo stack (deleted files/images are not undoable)
     m_undoStack->clear();
 }
 
 void MainWindow::newFieldActionTriggered()
 {
-    if ((!m_metadataEngine->getCurrentCollectionId()) ||
-            SyncSession::IS_READ_ONLY) return;
+    if (!m_metadataEngine->getCurrentCollectionId()) return;
 
     if (!m_addFieldDialog) {
         m_addFieldDialog = new AddFieldDialog(this);
@@ -925,8 +805,7 @@ void MainWindow::newFieldActionTriggered()
 
 void MainWindow::duplicateFieldActionTriggered()
 {
-    if ((!m_metadataEngine->getCurrentCollectionId()) ||
-            SyncSession::IS_READ_ONLY) return;
+    if (!m_metadataEngine->getCurrentCollectionId()) return;
 
     int fieldId;
     if (m_currentViewMode == FormViewMode) {
@@ -961,8 +840,7 @@ void MainWindow::duplicateFieldActionTriggered()
 
 void MainWindow::deleteFieldActionTriggered()
 {
-    if ((!m_metadataEngine->getCurrentCollectionId()) ||
-            SyncSession::IS_READ_ONLY) return;
+    if (!m_metadataEngine->getCurrentCollectionId()) return;
 
     int fieldId;
     if (m_currentViewMode == FormViewMode) {
@@ -1012,17 +890,12 @@ void MainWindow::deleteFieldActionTriggered()
     //remove field
     m_metadataEngine->deleteField(fieldId);
 
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
-
     //clear undo stack since this action is not undoable
     m_undoStack->clear();
 }
 
 void MainWindow::modifyFieldActionTriggered()
 {
-    if (SyncSession::IS_READ_ONLY) return;
-
     int fieldId;
     if (m_currentViewMode == FormViewMode) {
         fieldId = m_formView->getSelectedField();
@@ -1146,31 +1019,6 @@ void MainWindow::backupActionTriggered()
 
     //if backup restored, restart
     if (dialog.backupRestored()) {
-        //if sync enabled close session
-        if (SyncSession::IS_ENABLED) {
-            if (SyncSession::IS_ONLINE && (!SyncSession::IS_READ_ONLY)) {
-                QProgressDialog pd(this);
-                pd.setWindowModality(Qt::WindowModal);
-                pd.setWindowTitle(tr("Closing Session"));
-                pd.setLabelText(tr("Closing sync session... Please wait!"));
-                pd.setRange(0, 0);
-                pd.setValue(-1);
-
-                connect(m_syncEngine, SIGNAL(syncSessionClosed()),
-                        &pd, SLOT(close()));
-                m_syncEngine->startCloseCloudSession();
-
-                //wait until session is closed
-                pd.exec();
-
-                //disable sync
-                m_settingsManager->setCloudSyncActive(false);
-
-                //cause conflict
-                m_settingsManager->saveCloudLocalDataChanged(true);
-                m_settingsManager->saveCloudSessionKey("invalid");
-            }
-        }
         QMessageBox box(QMessageBox::Information, tr("Software Restart"),
                         tr("Software restart required! "
                            "Please restart %1 manually.").arg(DefinitionHolder::NAME),
@@ -1289,125 +1137,6 @@ void MainWindow::showRecordfromAlarm(int collectionId,
     }
 
     this->activateWindow();
-}
-
-void MainWindow::syncActionTriggered()
-{
-    bool syncConfigured = m_settingsManager->isCloudSyncActive();
-
-    if (!syncConfigured) {
-        //configure sync
-        SyncConfigDialog dialog(this);
-        dialog.exec();
-
-        //if dialog cancelled
-        if (!dialog.result())
-            return;
-
-        //enable sync status widget
-        m_dockWidget->updateSyncStatusWidgetVisibility();
-    }
-
-    showSyncDialog();
-}
-
-void MainWindow::syncErrorSlot(const QString &message)
-{
-    QMessageBox box(QMessageBox::Critical, tr("Sync Error"),
-                    tr("Cloud sync error: ").append(message),
-                    QMessageBox::NoButton,
-                    this);
-
-    //if no other dialog is open, show modal
-    if (isActiveWindow())
-        box.setWindowModality(Qt::WindowModal);
-
-    box.exec();
-}
-
-void MainWindow::syncClientAlreadyLoggedInSlot()
-{
-    QMessageBox box(QMessageBox::Warning, tr("Sync Session"),
-                    tr("Sync session is already open. "
-                       "This happens when another client is running in online "
-                       "mode. Please continue in read-only mode until the "
-                       "first client exits. It is also possible to force "
-                       " write access by taking ownership of the session. "
-                       "This is useful for cases where "
-                       "the connection was accidentaly interrupted, "
-                       "leaving the session open."
-                       "<br><br><b>Warning:</b> Forcing access could "
-                       "lead to data loss!"),
-                    QMessageBox::Cancel,
-                    this);
-
-    //if no other dialog is open, show modal
-    if (isActiveWindow())
-        box.setWindowModality(Qt::WindowModal);
-
-    box.addButton(tr("force access"), QMessageBox::NoRole);
-    QPushButton *readOnly = box.addButton(tr("read-only access"),
-                                          QMessageBox::YesRole);
-    box.setDefaultButton(readOnly);
-    int r = box.exec();
-    bool syncCheckAgain = false;
-
-    if (r == QMessageBox::Cancel) {
-        //offline mode
-        SyncSession::IS_ONLINE = false;
-        SyncSession::IS_READ_ONLY = false;
-    } else if (r == 0) {
-        //force access
-        SyncSession::IS_ONLINE = true;
-        SyncSession::IS_READ_ONLY = false;
-        syncCheckAgain = true;
-    } else {
-        //read-only is already set
-    }
-
-    SyncSession::CURRENT_STATE = SyncSession::NoOperation;
-    m_dockWidget->updateSyncStatusWidget();
-
-    if (syncCheckAgain)
-        m_syncEngine->startSyncCheck();
-}
-
-void MainWindow::syncSessionKeyChangedSlot()
-{
-    showSyncDialog();
-}
-
-void MainWindow::syncNewRevisionAvailableSlot()
-{
-    showSyncDialog();
-}
-
-void MainWindow::syncRevisionConflictSlot()
-{
-    showSyncDialog();
-}
-
-void MainWindow::syncAuthTokenExpiredSlot()
-{
-    SyncConfigDialog dialog(this);
-    dialog.reauthenticateSyncService();
-
-    //if another dialog is open, show non modal
-    if (!isActiveWindow())
-        dialog.setWindowModality(Qt::NonModal);
-
-    dialog.exec();
-
-    //if dialog cancelled
-    if (!dialog.result())
-        return;
-
-    m_syncEngine->startSyncCheck();
-}
-
-void MainWindow::syncStatusChanged()
-{
-    m_syncReadOnlyAction->setChecked(SyncSession::IS_READ_ONLY);
 }
 
 void MainWindow::checkForUpdatesSlot()
@@ -1536,17 +1265,6 @@ void MainWindow::createActions()
     m_optimizeDbSizeAction->setStatusTip(tr("Optimize size of database file "
                                             "by freeing unused resources"));
 
-    m_syncAction = new QAction(tr("Cloud synchronization..."), this);
-    m_syncAction->setStatusTip(tr("Synchronize your database with a cloud service"));
-    m_syncAction->setShortcut(QString("CTRL+S"));
-    m_syncAction->setIcon(QIcon(":/images/icons/sync.png"));
-
-    m_syncReadOnlyAction = new QAction(tr("Read-only mode"), this);
-    m_syncReadOnlyAction->setStatusTip(tr("Toggle read-only mode. If enabled, "
-                                          "other clients can access and write to the database."));
-    m_syncReadOnlyAction->setShortcut(QString("CTRL+R"));
-    m_syncReadOnlyAction->setCheckable(true);
-
     m_checkUpdatesAction = new QAction(tr("Check for updates"), this);
     m_checkUpdatesAction->setStatusTip(tr("Check for %1 updates")
                                      .arg(DefinitionHolder::NAME));
@@ -1572,20 +1290,6 @@ void MainWindow::createToolBar()
     m_toolBar->addAction(m_newCollectionAction);
     m_toolBar->addAction(m_deleteCollectionAction);
     m_toolBar->addSeparator();
-    m_toolBar->addAction(m_syncAction);
-
-//#ifndef Q_OS_OSX
-//    m_toolBar->setStyleSheet(
-//                "QToolBar { background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(246, 248, 249), stop:0.5 rgb(229, 235, 238),stop:0.51 rgb(215, 222, 227),stop:1 rgb(245, 247,249)); }"
-//                "QToolButton {"
-//                "border: none;"
-//                "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(246, 248, 249), stop:0.5 rgb(229, 235, 238),stop:0.51 rgb(215, 222, 227),stop:1 rgb(245, 247,249));"
-//                "}"
-//                "QToolButton:pressed {"
-//                "border-radius: 6px;"
-//                "background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #d2d4d5, stop:0.5 #a8a9a9,stop:0.51 #98999a,stop:1 #d2d4d5);"
-//                "}");
-//#endif //Q_OS_OSX
 
     this->addToolBar(m_toolBar);
 }
@@ -1652,9 +1356,6 @@ void MainWindow::createMenu()
     m_viewMenu->addSeparator();
     m_viewMenu->addAction(m_showAlarmDialogAction);
 
-    m_cloudMenu = new QMenu(tr("Cloud"), this);
-    m_cloudMenu->addAction(m_syncReadOnlyAction);
-
     m_recordsMenu = new QMenu(tr("Records"), this);
     m_recordsMenu->addAction(m_deleteAllRecordsAction);
 
@@ -1662,9 +1363,6 @@ void MainWindow::createMenu()
     m_databaseMenu->addAction(m_optimizeDbSizeAction);
 
     m_toolsMenu = menuBar()->addMenu(tr("&Tools"));
-    m_toolsMenu->addAction(m_syncAction);
-    m_toolsMenu->addSeparator();
-    m_toolsMenu->addMenu(m_cloudMenu);
     m_toolsMenu->addMenu(m_recordsMenu);
     m_toolsMenu->addMenu(m_databaseMenu);
     m_toolsMenu->addSeparator();
@@ -1694,7 +1392,6 @@ void MainWindow::createComponents()
 {
     m_settingsManager = new SettingsManager;
     m_metadataEngine = &MetadataEngine::getInstance();
-    m_syncEngine = &SyncEngine::getInstance();
     m_undoStack = new QUndoStack(this);
 }
 
@@ -1748,8 +1445,6 @@ void MainWindow::createConnections()
             this, SLOT(fullscreenActionTriggered()));
     connect(m_toggleDockAction, SIGNAL(triggered()),
             this, SLOT(toggleDockActionTriggered()));
-    connect(m_syncAction, SIGNAL(triggered()),
-            this, SLOT(syncActionTriggered()));
     connect(m_selectAllAction, SIGNAL(triggered()),
             this, SLOT(selectAllActionTriggered()));
     connect(m_backupAction, SIGNAL(triggered()),
@@ -1820,8 +1515,6 @@ void MainWindow::createConnections()
             this, SLOT(deleteCollectionActionTriggered()));
 
     //tools action
-    connect(m_syncReadOnlyAction, SIGNAL(triggered()),
-            this, SLOT(syncReadOnlyActionTriggered()));
     connect(m_deleteAllRecordsAction, SIGNAL(triggered()),
             this, SLOT(deleteAllRecordsActionTriggered()));
     connect(m_optimizeDbSizeAction, SIGNAL(triggered()),
@@ -1903,10 +1596,6 @@ void MainWindow::restoreSettings()
     if (m_dockContainerWidget->isHidden()){
         m_toggleDockAction->setChecked(true);
     }
-
-    //sync
-    SyncSession::LOCAL_DATA_CHANGED = m_syncEngine->localDataChanged();
-    SyncSession::IS_ENABLED = m_settingsManager->isCloudSyncActive();
 }
 
 void MainWindow::saveSettings()
@@ -1916,14 +1605,6 @@ void MainWindow::saveSettings()
     m_settingsManager->saveSoftwareBuild();
     m_settingsManager->saveViewMode(m_currentViewMode);
     m_settingsManager->saveLastUsedRecord(m_formView->getCurrentRow());
-
-    //sync
-    if (SyncSession::IS_ENABLED) {
-        bool changed = SyncSession::LOCAL_DATA_CHANGED;
-        if (!SyncSession::IS_READ_ONLY) {
-            m_syncEngine->setLocalDataChanged(changed);
-        }
-    }
 }
 
 void MainWindow::init()
@@ -2003,76 +1684,6 @@ void MainWindow::detachCollectionModelView()
     if (cm) {
         cv->detachModel();
     }
-}
-
-void MainWindow::initSync()
-{
-    SettingsManager s;
-    if (!s.isCloudSyncActive()) return;
-
-    createSyncConnections();
-    m_syncEngine->startSyncCheck();
-}
-
-void MainWindow::showSyncDialog(bool autoclose)
-{
-    //detach views
-    detachModelFromViews();
-    detachCollectionModelView();
-
-    //disable temporary sync connections
-    //to allow exclusive sync handling
-    //by the sync dialog
-    removeSyncConnections();
-    SyncProcessDialog syncDialog(this);
-    if (autoclose) syncDialog.enableAutoCloseAfterSync();
-
-    //if another dialog is open, show non modal
-    if (!isActiveWindow())
-        syncDialog.setWindowModality(Qt::NonModal);
-
-    syncDialog.exec();
-    createSyncConnections(); //enable sync connections again
-
-    int id = m_metadataEngine->getCurrentCollectionId();
-
-    //attach views
-    attachCollectionModelView();
-    m_metadataEngine->setCurrentCollectionId(id);
-
-    //update status widget
-    m_dockWidget->updateSyncStatusWidget();
-
-    //clear undo stack since id may not be valid anymore
-    m_undoStack->clear();
-}
-
-void MainWindow::createSyncConnections()
-{
-    //sync engine
-    connect(m_syncEngine, SIGNAL(sessionChanged()),
-            m_dockWidget, SLOT(updateSyncStatusWidget()));
-    connect(m_syncEngine, SIGNAL(sessionChanged()),
-            this, SLOT(syncStatusChanged()));
-    connect(m_syncEngine, SIGNAL(syncError(QString)),
-            this, SLOT(syncErrorSlot(QString)));
-    connect(m_syncEngine, SIGNAL(clientAlreadyLoggedIn()),
-            this, SLOT(syncClientAlreadyLoggedInSlot()));
-    connect(m_syncEngine, SIGNAL(sessionKeyChanged()),
-            this, SLOT(syncSessionKeyChangedSlot()));
-    connect(m_syncEngine, SIGNAL(newSyncRevisionAvailable()),
-            this, SLOT(syncNewRevisionAvailableSlot()));
-    connect(m_syncEngine, SIGNAL(syncRevisionConflict()),
-            this, SLOT(syncRevisionConflictSlot()));
-    connect(m_syncEngine, SIGNAL(authTokenExpired()),
-            this, SLOT(syncAuthTokenExpiredSlot()));
-}
-
-void MainWindow::removeSyncConnections()
-{
-    //sync engine
-    disconnect(m_syncEngine, 0, m_dockWidget, 0);
-    disconnect(m_syncEngine, 0, this, 0);
 }
 
 void MainWindow::checkAlarmTriggers()

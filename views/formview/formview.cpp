@@ -31,7 +31,6 @@
 #include "emptyformwidget.h"
 #include "../../components/undocommands.h"
 #include "../../utils/formviewlayoutstate.h"
-#include "../../components/sync_framework/syncsession.h"
 
 #include <QtCore/QPropertyAnimation>
 #include <QtWidgets/QScrollBar>
@@ -698,9 +697,6 @@ void FormView::mouseReleaseEvent(QMouseEvent *event)
         //save new layout
         FormViewLayoutState newState(m_formLayoutMatrix, m_formWidgetList);
 
-        //set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
-
         //create undo action
         QUndoStack *stack = MainWindow::getUndoStack();
         if (stack) {
@@ -743,9 +739,6 @@ void FormView::mouseReleaseEvent(QMouseEvent *event)
 
         //save new layout
         FormViewLayoutState newState(m_formLayoutMatrix, m_formWidgetList);
-
-        //set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
 
         //create undo action
         QUndoStack *stack = MainWindow::getUndoStack();
@@ -816,9 +809,6 @@ void FormView::formWidgetDataChanged()
                         oldData, newData);
             stack->push(cmd);
         }
-
-        //sync set local data changed
-        SyncSession::LOCAL_DATA_CHANGED = true;
 
         //save data to model
         model()->setData(index, data);

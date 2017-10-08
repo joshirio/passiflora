@@ -8,7 +8,6 @@
 
 #include "filemanager.h"
 #include "../components/metadataengine.h"
-#include "../components/sync_framework/syncsession.h"
 #include "../components/settingsmanager.h"
 #include "../components/databasemanager.h"
 
@@ -335,12 +334,6 @@ void FileManager::openContentFile(const QString &file)
 {
     QFileInfo f(m_fileDirPath + file);
     QDesktopServices::openUrl(QUrl::fromLocalFile(f.absoluteFilePath()));
-
-    //if sync is enabled, add to a list of files that should be watched for
-    //changes on next sync
-    if (SyncSession::IS_ENABLED) {
-        addFileToWatchList(file);
-    }
 }
 
 void FileManager::removeAllFiles()
@@ -368,11 +361,6 @@ void FileManager::removeFileMetadata(const int fileId)
                                      fileName,
                                      hashName,
                                      dateTime);
-
-    if (SyncSession::IS_ENABLED) {
-        addFileToDeleteList(hashName);
-        removeFileFromUploadList(hashName);
-    }
 
     m_metadataEngine->removeContentFile(fileId);
 }
@@ -421,19 +409,12 @@ void FileManager::fileOperationFinishedSlot(const QString &srcFileName,
             fileName.append("." + info.completeSuffix());
 
         m_metadataEngine->addContentFile(fileName, destFileName);
-        if (SyncSession::IS_ENABLED) {
-            addFileToUploadList(destFileName);
-        }
         emit addFileCompletedSignal(destFileName);
     }
         break;
     case FileTask::RemoveOp:
         m_metadataEngine->removeContentFile(
                     m_metadataEngine->getContentFileId(srcFileName));
-        if (SyncSession::IS_ENABLED) {
-            addFileToDeleteList(srcFileName);
-            removeFileFromUploadList(srcFileName);
-        }
         emit removeFileCompletedSignal(srcFileName);
         break;
     }
@@ -480,9 +461,6 @@ void FileManager::addFileToUploadList(const QString &file)
         list.append(file);
         m_settingsManager->saveToUploadList(list);
     }
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 }
 
 void FileManager::addFileToDeleteList(const QString &file)
@@ -492,9 +470,6 @@ void FileManager::addFileToDeleteList(const QString &file)
         list.append(file);
         m_settingsManager->saveToDeleteList(list);
     }
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 }
 
 void FileManager::addFileToWatchList(const QString &file)
@@ -503,7 +478,4 @@ void FileManager::addFileToWatchList(const QString &file)
     QHash<QString,QDateTime> map = m_settingsManager->restoreToWatchList();
     map.insert(file, info.lastModified());
     m_settingsManager->saveToWatchList(map);
-
-    //set local data changed
-    SyncSession::LOCAL_DATA_CHANGED = true;
 }
