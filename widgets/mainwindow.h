@@ -89,7 +89,7 @@ private slots:
     void formViewModeTriggered();
     void tableViewModeTriggered();
     void fullscreenActionTriggered();
-    void toggleDockActionTriggered();
+    //void toggleDockActionTriggered();
     void currentCollectionIdChanged(int collectionId);
     void currentCollectionChanged();
     void newRecordActionTriggered();
@@ -185,7 +185,7 @@ private:
     QAction *m_formViewModeAction;
     QAction *m_tableViewModeAction;
     QAction *m_fullscreenAction;
-    QAction *m_toggleDockAction;
+    //QAction *m_toggleDockAction;
     QAction *m_deleteAllRecordsAction;
     QAction *m_optimizeDbSizeAction;
     QAction *m_selectAllAction;

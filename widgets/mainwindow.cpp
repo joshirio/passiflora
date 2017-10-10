@@ -282,10 +282,10 @@ void MainWindow::fullscreenActionTriggered()
     }
 }
 
-void MainWindow::toggleDockActionTriggered()
+/*void MainWindow::toggleDockActionTriggered()
 {
     m_dockContainerWidget->setHidden(m_toggleDockAction->isChecked());
-}
+}*/
 
 void MainWindow::currentCollectionIdChanged(int collectionId)
 {
@@ -1253,9 +1253,10 @@ void MainWindow::createActions()
     m_fullscreenAction->setShortcut(QString("F11"));
 #endif
 
-    m_toggleDockAction = new QAction(tr("Hide collection sidebar"), this);
+    /*m_toggleDockAction = new QAction(tr("Hide collection sidebar"), this);
     m_toggleDockAction->setCheckable(true);
     m_toggleDockAction->setShortcut(QString("CTRL+B"));
+    */
 
     m_deleteAllRecordsAction = new QAction(tr("Delete all records"), this);
     m_deleteAllRecordsAction->setStatusTip(
@@ -1292,6 +1293,9 @@ void MainWindow::createToolBar()
     m_toolBar->addSeparator();
 
     this->addToolBar(m_toolBar);
+
+    //for passiflora no toolbar is needed at this point
+    this->removeToolBar(m_toolBar);
 }
 
 void MainWindow::createDockWidget()
@@ -1321,6 +1325,11 @@ void MainWindow::createDockWidget()
                                          "}");
 
     addDockWidget(Qt::LeftDockWidgetArea, m_dockContainerWidget);
+
+    //for passiflora only one default collection
+    //so hide dock but keep the code
+    //in case more collections are needed in future
+    m_dockContainerWidget->setHidden(true);
 }
 
 void MainWindow::createMenu()
@@ -1349,7 +1358,7 @@ void MainWindow::createMenu()
 
     m_viewMenu = menuBar()->addMenu(tr("&View"));
     m_viewMenu->addAction(m_fullscreenAction);
-    m_viewMenu->addAction(m_toggleDockAction);
+    //m_viewMenu->addAction(m_toggleDockAction);
     m_viewMenu->addAction(m_viewModeActionSeparator);
     m_viewMenu->addAction(m_formViewModeAction);
     m_viewMenu->addAction(m_tableViewModeAction);
@@ -1443,8 +1452,8 @@ void MainWindow::createConnections()
             this, SLOT(tableViewModeTriggered()));
     connect(m_fullscreenAction, SIGNAL(triggered()),
             this, SLOT(fullscreenActionTriggered()));
-    connect(m_toggleDockAction, SIGNAL(triggered()),
-            this, SLOT(toggleDockActionTriggered()));
+    /*connect(m_toggleDockAction, SIGNAL(triggered()),
+            this, SLOT(toggleDockActionTriggered()));*/
     connect(m_selectAllAction, SIGNAL(triggered()),
             this, SLOT(selectAllActionTriggered()));
     connect(m_backupAction, SIGNAL(triggered()),
@@ -1591,11 +1600,12 @@ void MainWindow::restoreSettings()
     }
 #endif //Q_OS_LINUX
 
+    /* not needed for passiflora at this point
     //update dock widget status (hidden/visisble) and toggleDockAction
     //dock status is saved as part of geometry so only menu sync is needed
     if (m_dockContainerWidget->isHidden()){
         m_toggleDockAction->setChecked(true);
-    }
+    }*/
 }
 
 void MainWindow::saveSettings()
