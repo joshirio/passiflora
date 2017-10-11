@@ -11,7 +11,6 @@
 #include "../../utils/metadatapropertiesparser.h"
 #include "../../components/metadataengine.h"
 #include "../../views/formview/formview.h"
-#include "../../components/alarmmanager.h"
 
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QDateTimeEdit>
@@ -166,10 +165,10 @@ void DateFormWidget::editingFinishedSlot()
 
             //add or update alarm
             if ((recordId != -1) && (alarmTrigger)) {
-                QDateTime dateTime(m_dateTimeEdit->dateTime());
+                /*QDateTime dateTime(m_dateTimeEdit->dateTime());
                 AlarmManager a(this);
                 a.addOrUpdateAlarm(meta->getCurrentCollectionId(),
-                                   fieldId, recordId, dateTime);
+                                   fieldId, recordId, dateTime);*/ //disabled in passiflora
             }
         }
     }

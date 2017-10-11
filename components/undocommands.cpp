@@ -12,7 +12,6 @@
 #include "../utils/formviewlayoutstate.h"
 #include "../views/formview/formview.h"
 #include "../utils/metadatapropertiesparser.h"
-#include "alarmmanager.h"
 
 #include <QtCore/QAbstractItemModel>
 
@@ -231,14 +230,14 @@ void ModFieldCommand::handleEditTriggers()
                                             m_fieldId, m_collectionId));
         if (parser.size() > 0) {
             //update alarms
-            AlarmManager a;
+            /*AlarmManager a;
             if (parser.getValue("alarmOnDate") == "1") {
                 //add all alarms
                 a.addAlarmsForExistingRecords(m_collectionId, m_fieldId);
             } else {
                 //remove all alarms
                 a.removeAllAlarms(m_collectionId, m_fieldId);
-            }
+            }*/ //disabled in passiflora
         }
     }
         break;
@@ -311,7 +310,7 @@ void ModRecordCommand::handleEditTriggers(const QVariant &data)
     case MetadataEngine::DateType:
     {
         //update alarm property if needed
-        MetadataPropertiesParser parser(meta->getFieldProperties(
+        /*MetadataPropertiesParser parser(meta->getFieldProperties(
                                             MetadataEngine::TriggerProperty,
                                             m_column, m_collectionId));
         if (parser.size() > 0) {
@@ -330,7 +329,8 @@ void ModRecordCommand::handleEditTriggers(const QVariant &data)
                                    m_column, id,
                                    dateTime);
             }
-        }
+        }*/ //disabled in passiflora
+        Q_UNUSED(data); //not used in passiflora, rm compile warning
     }
         break;
     default:

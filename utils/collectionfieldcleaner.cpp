@@ -9,7 +9,6 @@
 #include "collectionfieldcleaner.h"
 #include "../components/metadataengine.h"
 #include "../components/databasemanager.h"
-#include "../components/alarmmanager.h"
 
 #include <QtSql/QSqlQuery>
 #include <QtCore/QVariant>
@@ -70,8 +69,8 @@ void CollectionFieldCleaner::cleanField(int collectionId, int fieldId)
     case MetadataEngine::DateType:
     {
         //delete all alarm triggers if any
-        AlarmManager a(this);
-        a.removeAllAlarms(collectionId, fieldId);
+        /*AlarmManager a(this);
+        a.removeAllAlarms(collectionId, fieldId);*/ //disabled in passiflora
     }
         break;
     default:

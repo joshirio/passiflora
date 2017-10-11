@@ -10,7 +10,6 @@
 #include "../components/databasemanager.h"
 #include "../components/metadataengine.h"
 #include "../utils/metadatapropertiesparser.h"
-#include "../components/alarmmanager.h"
 
 #include <QtSql/QSqlRecord>
 
@@ -137,7 +136,7 @@ void StandardModel::duplicateRecord(int row)
     //alarm property handler for date type fields
     //this is here because the last inserted record id is needed
     //add alarms if any (in case of date field type with alarm property)
-    if (addToAlarmsTable.size()) {
+    /*if (addToAlarmsTable.size()) { //disabled in passiflora
         AlarmManager a(this);
         int collectionId = m_metadataEngine->getCurrentCollectionId();
         bool ok;
@@ -150,7 +149,7 @@ void StandardModel::duplicateRecord(int row)
                 ++i;
             }
         }
-    }
+    }*/
 }
 
 bool StandardModel::removeRows(int row, int count, const QModelIndex &parent)

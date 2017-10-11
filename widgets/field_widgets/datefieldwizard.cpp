@@ -10,7 +10,6 @@
 #include "ui_datefieldwizard.h"
 
 #include "../../components/metadataengine.h"
-#include "../../components/alarmmanager.h"
 #include "../../utils/metadatapropertiesparser.h"
 
 #include <QtCore/QDateTime>
@@ -116,14 +115,14 @@ void DateFieldWizard::finishButtonClicked()
         bool currentAlarmOnDate = ui->reminderCheckBox->isChecked();
 
         if (oldAlarmOnDate != currentAlarmOnDate) {
-            AlarmManager a(this);
+            /*AlarmManager a(this);
             if (currentAlarmOnDate) {
                 //set up alarms for existing dates
                 a.addAlarmsForExistingRecords(m_collectionId, m_fieldId);
             } else {
                 //remove all existing alarms
                 a.removeAllAlarms(m_collectionId, m_fieldId);
-            }
+            }*/ //disabled in passiflora
         }
     }
 

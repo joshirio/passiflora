@@ -84,8 +84,6 @@ SOURCES += main.cpp\
     widgets/field_widgets/moddatefieldwizard.cpp \
     widgets/form_widgets/moddateformwidget.cpp \
     utils/collectionfieldcleaner.cpp \
-    components/alarmmanager.cpp \
-    widgets/alarmlistdialog.cpp \
     widgets/printdialog.cpp \
     widgets/aboutdialog.cpp \
     widgets/form_widgets/urlformwidget.cpp \
@@ -156,8 +154,6 @@ HEADERS  += widgets/mainwindow.h \
     widgets/field_widgets/moddatefieldwizard.h \
     widgets/form_widgets/moddateformwidget.h \
     utils/collectionfieldcleaner.h \
-    components/alarmmanager.h \
-    widgets/alarmlistdialog.h \
     widgets/printdialog.h \
     widgets/aboutdialog.h \
     widgets/form_widgets/urlformwidget.h \
@@ -183,7 +179,6 @@ FORMS += \
     ui/datefieldwizard.ui \
     ui/creationdatefieldwizard.ui \
     ui/moddatefieldwizard.ui \
-    ui/alarmlistdialog.ui \
     ui/printdialog.ui \
     ui/importdialog.ui \
     ui/aboutdialog.ui \

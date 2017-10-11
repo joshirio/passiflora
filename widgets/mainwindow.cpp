@@ -23,10 +23,8 @@
 #include "preferencesdialog.h"
 #include "backupdialog.h"
 #include "printdialog.h"
-#include "alarmlistdialog.h"
 #include "aboutdialog.h"
 #include "../components/updatemanager.h"
-#include "../components/alarmmanager.h"
 #include "../utils/collectionfieldcleaner.h"
 
 #include <QApplication>
@@ -66,7 +64,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       m_addFieldDialog(0),
       m_updateManager(0),
-      m_alarmListDialog(0),
       m_lastUsedCollectionId(0)
 {
     //init GUI elements
@@ -84,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     restoreSettings();
     init();
-    checkAlarmTriggers();
     checkForUpdatesSlot();
 
     setWindowTitle(tr("%1").arg(DefinitionHolder::NAME));
@@ -1092,53 +1088,6 @@ void MainWindow::printActionTriggered()
     this->activateWindow();
 }
 
-void MainWindow::showAlarmListDialog()
-{
-    if (!m_alarmListDialog) {
-        m_alarmListDialog = new AlarmListDialog(this);
-        connect(m_alarmListDialog, SIGNAL(showRecord(int,int,int)),
-                this, SLOT(showRecordfromAlarm(int,int,int)));
-    } else {
-        //check again
-        m_alarmListDialog->reloadAlarmList();
-    }
-    m_alarmListDialog->show();
-    m_alarmListDialog->activateWindow();
-}
-
-void MainWindow::showRecordfromAlarm(int collectionId,
-                                     int fieldId,
-                                     int recordId)
-{
-    if (!m_currentModel) return;
-
-    //set collection
-    if (collectionId != m_metadataEngine->getCurrentCollectionId()) {
-        m_metadataEngine->setCurrentCollectionId(collectionId);
-    }
-
-    //get row
-    int row = -1;
-    Qt::MatchFlags flags = Qt::MatchFlags( Qt::MatchExactly | Qt::MatchWrap );
-    QModelIndexList indexList = m_currentModel->match(m_currentModel->index(0,0), Qt::DisplayRole,
-                                                      recordId, flags);
-    if (!indexList.isEmpty()) {
-        row = indexList.at(0).row();
-    }
-
-    //fetch all data from model
-    while(m_currentModel->canFetchMore(QModelIndex()))
-        m_currentModel->fetchMore(QModelIndex());
-
-    if (row != -1) {
-        m_formView->selectionModel()->setCurrentIndex(
-                    m_currentModel->index(row, fieldId),
-                    QItemSelectionModel::SelectCurrent);
-    }
-
-    this->activateWindow();
-}
-
 void MainWindow::checkForUpdatesSlot()
 {
     if (DefinitionHolder::APP_STORE ||
@@ -1692,14 +1641,5 @@ void MainWindow::detachCollectionModelView()
     QAbstractItemModel *cm = cv->model();
     if (cm) {
         cv->detachModel();
-    }
-}
-
-void MainWindow::checkAlarmTriggers()
-{
-    AlarmManager alarmManager(this);
-    if (alarmManager.checkAlarms()) {
-        //this is a workaround to activate focus on the dialog
-        QTimer::singleShot(100, this, SLOT(showAlarmListDialog()));
     }
 }

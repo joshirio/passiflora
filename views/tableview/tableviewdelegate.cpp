@@ -17,7 +17,6 @@
 #include "../../components/undocommands.h"
 #include "../../components/filemanager.h"
 #include "tableview.h"
-#include "../../components/alarmmanager.h"
 
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QCheckBox>
@@ -463,10 +462,10 @@ void TableViewDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 
                 //add or update alarm
                 if ((recordId != -1) && (alarmTrigger)) {
-                    AlarmManager a;
+                    /*AlarmManager a; //disabled in passiflora
                     QDateTime dateTime = data.toDateTime();
                     a.addOrUpdateAlarm(m_metadataEngine->getCurrentCollectionId(),
-                                       fieldId, recordId, dateTime);
+                                       fieldId, recordId, dateTime);*/
                 }
             }
         }

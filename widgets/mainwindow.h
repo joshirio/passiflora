@@ -37,7 +37,6 @@ class MetadataEngine;
 class AddFieldDialog;
 class QUndoStack;
 class UpdateManager;
-class AlarmListDialog;
 
 
 //-----------------------------------------------------------------------------
@@ -108,14 +107,6 @@ private slots:
     void backupActionTriggered();
     void printActionTriggered();
 
-    /** Create and show alarm list dialog */
-    void showAlarmListDialog();
-
-    /** Show record alarm */
-    void showRecordfromAlarm(int collectionId,
-                             int fieldId,
-                             int recordId);
-
     //updates
     void checkForUpdatesSlot();
     void noUpdateFoundSlot();
@@ -151,9 +142,6 @@ private:
 
     /** Detach model from collection list view */
     void detachCollectionModelView();
-
-    /** Check if there are any alarm triggers to show in the AlarmListDialog */
-    void checkAlarmTriggers();
 
     QToolBar *m_toolBar;
     QDockWidget *m_dockContainerWidget;
@@ -206,7 +194,6 @@ private:
     MetadataEngine *m_metadataEngine;
     AddFieldDialog *m_addFieldDialog;
     UpdateManager *m_updateManager;
-    AlarmListDialog *m_alarmListDialog;
 
     int m_lastUsedCollectionId;
     QMap<int, int> m_collectionSessionIndexMap; /**< save collection id, row id pairs during session */
