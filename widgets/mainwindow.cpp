@@ -84,7 +84,8 @@ MainWindow::MainWindow(QWidget *parent)
     checkForUpdatesSlot();
 
     setWindowTitle(tr("%1").arg(DefinitionHolder::NAME));
-    setMinimumHeight(500);
+    setMinimumHeight(600);
+    setMinimumWidth(800);
 }
 
 MainWindow::~MainWindow()
