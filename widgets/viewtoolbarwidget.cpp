@@ -213,7 +213,7 @@ ViewToolBarWidget::ViewToolBarWidget(QWidget *parent) :
     //m_frameLayout->addWidget(separator1);
     m_frameLayout->addLayout(m_fieldLayout);
     //m_frameLayout->addWidget(separator2);
-    m_frameLayout->addStretch();
+    //m_frameLayout->addStretch(); //passiflora edit since no actions
     m_frameLayout->addLayout(m_viewModeLayout);
     //m_frameLayout->addWidget(separator3);
     m_frameLayout->addStretch();
@@ -366,6 +366,14 @@ ViewToolBarWidget::ViewToolBarWidget(QWidget *parent) :
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
 
     createConnections();
+
+    //passiflora fork disables editing so hide unused actions
+    m_newFieldButton->hide();
+    m_newRecordButton->hide();
+    m_deleteFieldButton->hide();
+    m_deleteRecordButton->hide();
+    m_duplicateFieldButton->hide();
+    m_duplicateRecordButton->hide();
 }
 
 void ViewToolBarWidget::setViewModeState(ViewMode m)
