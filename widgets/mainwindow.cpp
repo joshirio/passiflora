@@ -1271,8 +1271,6 @@ void MainWindow::createActions()
                                      .arg(DefinitionHolder::NAME));
     m_checkUpdatesAction->setMenuRole(QAction::ApplicationSpecificRole);
 
-    m_showAlarmDialogAction = new QAction(tr("Date reminder list..."), this);
-
     m_printAction = new QAction(tr("Print..."), this);
     m_printAction->setStatusTip(tr("Print records or export them as PDF"));
     m_printAction->setShortcut(QKeySequence::Print);
@@ -1362,8 +1360,6 @@ void MainWindow::createMenu()
     m_viewMenu->addAction(m_viewModeActionSeparator);
     m_viewMenu->addAction(m_formViewModeAction);
     m_viewMenu->addAction(m_tableViewModeAction);
-    m_viewMenu->addSeparator();
-    m_viewMenu->addAction(m_showAlarmDialogAction);
 
     m_recordsMenu = new QMenu(tr("Records"), this);
     m_recordsMenu->addAction(m_deleteAllRecordsAction);
@@ -1389,6 +1385,11 @@ void MainWindow::createMenu()
     m_helpMenu->addSeparator();
     if (!DefinitionHolder::APP_STORE)
         m_helpMenu->addAction(m_checkUpdatesAction);
+
+    //passiflora disable unused actions
+    m_newMenu->menuAction()->setVisible(false);
+    m_recordsMenu->menuAction()->setVisible(false);
+    m_optimizeDbSizeAction->setVisible(false);
 }
 
 void MainWindow::createStatusBar()
@@ -1460,8 +1461,6 @@ void MainWindow::createConnections()
             this, SLOT(backupActionTriggered()));
     connect(m_checkUpdatesAction, SIGNAL(triggered()),
             this, SLOT(checkForUpdatesSlot()));
-    connect(m_showAlarmDialogAction, SIGNAL(triggered()),
-            this, SLOT(showAlarmListDialog()));
     connect(m_printAction, SIGNAL(triggered()),
             this, SLOT(printActionTriggered()));
 

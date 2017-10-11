@@ -190,7 +190,6 @@ private:
     QAction *m_optimizeDbSizeAction;
     QAction *m_selectAllAction;
     QAction *m_checkUpdatesAction;
-    QAction *m_showAlarmDialogAction;
     QAction *m_printAction;
 #ifdef Q_OS_OSX
     QAction *m_minimizeAction;
