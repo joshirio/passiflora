@@ -1450,22 +1450,6 @@ void MainWindow::createConnections()
     connect(m_formView, SIGNAL(deleteRecordSignal()),
            this, SLOT(deleteRecordActionTriggered()));
 
-    //table view context menu actions
-    connect(m_tableView, SIGNAL(newFieldSignal()),
-           this, SLOT(newFieldActionTriggered()));
-    connect(m_tableView, SIGNAL(duplicateFieldSignal()),
-           this, SLOT(duplicateFieldActionTriggered()));
-    connect(m_tableView, SIGNAL(deleteFieldSignal()),
-           this, SLOT(deleteFieldActionTriggered()));
-    connect(m_tableView, SIGNAL(modifyFieldSignal()),
-           this, SLOT(modifyFieldActionTriggered()));
-    connect(m_tableView, SIGNAL(newRecordSignal()),
-           this, SLOT(newRecordActionTriggered()));
-    connect(m_tableView, SIGNAL(duplicateRecordSignal()),
-           this, SLOT(duplicateRecordActionTriggered()));
-    connect(m_tableView, SIGNAL(deleteRecordSignal()),
-           this, SLOT(deleteRecordActionTriggered()));
-
     //collection actions
     connect(m_newCollectionAction, SIGNAL(triggered()),
             this, SLOT(newCollectionActionTriggered()));

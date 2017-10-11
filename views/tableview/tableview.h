@@ -46,27 +46,6 @@ public:
     int getLastEditColumn();
 
 signals:
-    /** Emitted when new field action was triggered from context menu */
-    void newFieldSignal();
-
-    /** Emitted when duplicate field action was triggered from context menu */
-    void duplicateFieldSignal();
-
-    /** Emitted when delete field action was triggered from context menu */
-    void deleteFieldSignal();
-
-    /** Emitted when modify field action was triggered from context menu */
-    void modifyFieldSignal();
-
-    /** Emitted when new record action was triggered from context menu */
-    void newRecordSignal();
-
-    /** Emitted when duplicate record action was triggered from context menu */
-    void duplicateRecordSignal();
-
-    /** Emitted when duplicate record action was triggered from context menu */
-    void deleteRecordSignal();
-
     /** This signal is emitted only if the user changed something by using
      *  the delegate's editor. This means: user finished editing manually
      */
@@ -99,15 +78,6 @@ private:
 
     void restoreSectionOrder();
     void restoreSectionSizes();
-
-    //context menu actions
-    QAction *m_newFieldContextAction;
-    QAction *m_duplicateFieldContextAction;
-    QAction *m_deleteFieldContextAction;
-    QAction *m_modifyFieldContextAction;
-    QAction *m_newRecordContextAction;
-    QAction *m_duplicateRecordContextAction;
-    QAction *m_deleteRecordContextAction;
 
     TableViewDelegate *m_delegate;
     int m_lastUsedRow; /**< Keep track of last focused row */

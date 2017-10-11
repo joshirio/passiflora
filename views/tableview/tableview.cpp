@@ -33,6 +33,9 @@ TableView::TableView(QWidget *parent) :
     //connections
     connect(m_delegate, SIGNAL(commitData(QWidget*)),
             this, SLOT(editingFinished()));
+
+    //passiflora disables editing
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void TableView::setModel(QAbstractItemModel *model)
@@ -153,7 +156,7 @@ bool TableView::edit(const QModelIndex &index, EditTrigger trigger, QEvent *even
 
 void TableView::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu menu(this);
+    /*QMenu menu(this);
     menu.addAction(m_newRecordContextAction);
     if (selectionModel()->hasSelection()) {
         menu.addAction(m_duplicateRecordContextAction);
@@ -166,7 +169,10 @@ void TableView::contextMenuEvent(QContextMenuEvent *event)
         menu.addAction(m_duplicateFieldContextAction);
         menu.addAction(m_deleteFieldContextAction);
     }
-    menu.exec(event->globalPos());
+    menu.exec(event->globalPos());*/
+
+    //disabled in passiflora
+    Q_UNUSED(event);
 }
 
 
@@ -257,29 +263,7 @@ void TableView::modelFetchAll()
 
 void TableView::createContextActions()
 {
-    m_newFieldContextAction = new QAction(tr("New field"), this);
-    m_duplicateFieldContextAction = new QAction(tr("Duplicate field"), this);
-    m_deleteFieldContextAction = new QAction(tr("Delete field"), this);
-    m_modifyFieldContextAction = new QAction(tr("Modify field"), this);
-    m_newRecordContextAction = new QAction(tr("New record"), this);
-    m_duplicateRecordContextAction = new QAction(tr("Duplicate record"), this);
-    m_deleteRecordContextAction = new QAction(tr("Delete record"), this);
-
-    //connections
-    connect(m_newFieldContextAction, SIGNAL(triggered()),
-            this, SIGNAL(newFieldSignal()));
-    connect(m_duplicateFieldContextAction, SIGNAL(triggered()),
-            this, SIGNAL(duplicateFieldSignal()));
-    connect(m_deleteFieldContextAction, SIGNAL(triggered()),
-            this, SIGNAL(deleteFieldSignal()));
-    connect(m_modifyFieldContextAction, SIGNAL(triggered()),
-            this, SIGNAL(modifyFieldSignal()));
-    connect(m_newRecordContextAction, SIGNAL(triggered()),
-            this, SIGNAL(newRecordSignal()));
-    connect(m_duplicateRecordContextAction, SIGNAL(triggered()),
-            this, SIGNAL(duplicateRecordSignal()));
-    connect(m_deleteRecordContextAction, SIGNAL(triggered()),
-            this, SIGNAL(deleteRecordSignal()));
+    //disabled in passiflora (no cotext menu needed at this point)
 }
 
 void TableView::restoreSectionOrder()
