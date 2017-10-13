@@ -56,6 +56,10 @@ TextFormWidget::TextFormWidget(QWidget *parent) :
             this, SLOT(validateData()));
 
     updateFocusPolicy();
+
+    //passiflora, editing disabled
+    m_lineEdit->setReadOnly(true);
+    m_textArea->setReadOnly(true);
 }
 
 void TextFormWidget::setFieldName(const QString &name)

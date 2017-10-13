@@ -49,6 +49,9 @@ NumberFormWidget::NumberFormWidget(QWidget *parent) :
             this, SLOT(validateData()));
 
     setupFocusPolicy();
+
+    //passiflora, editing disabled
+    m_lineEdit->setReadOnly(true);
 }
 
 void NumberFormWidget::setFieldName(const QString &name)

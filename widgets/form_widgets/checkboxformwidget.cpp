@@ -39,6 +39,9 @@ CheckboxFormWidget::CheckboxFormWidget(QWidget *parent) :
             this, SLOT(validateData()));
 
     setupFocusPolicy();
+
+    //passiflora, editing disabled
+    m_checkbox->setEnabled(false);
 }
 
 void CheckboxFormWidget::setFieldName(const QString &name)
@@ -84,8 +87,25 @@ void CheckboxFormWidget::loadMetadataDisplayProperties(const QString &metadata)
 
 void CheckboxFormWidget::validateData()
 {
-    //always valid
-    emit dataEdited();
+    bool valid;
+
+    QString editMetadata = MetadataEngine::getInstance().getFieldProperties(
+                MetadataEngine::EditProperty, getFieldId());
+    FormWidgetValidator validator(editMetadata, MetadataEngine::CheckboxType);
+    QString errorMessage;
+
+    valid = validator.validate(getData(), errorMessage);
+
+    if (valid) {
+        emit dataEdited();
+    } else {
+        //restore last valid value
+        m_checkbox->setChecked(!m_checkbox->isChecked());
+
+        //inform FormView that the widget needs attention
+        //by animating the widget
+        emit requiresAttention(errorMessage);
+    }
 }
 
 

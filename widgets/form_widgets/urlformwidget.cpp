@@ -55,6 +55,9 @@ URLFormWidget::URLFormWidget(QWidget *parent) :
             this, SLOT(openURLActionTriggered()));
 
     updateFocusPolicy();
+
+    //passiflora, editing disabled
+    m_lineEdit->setReadOnly(true);
 }
 
 void URLFormWidget::setFieldName(const QString &name)

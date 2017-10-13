@@ -19,6 +19,7 @@
 #include <QtWidgets/QProgressDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
 
 
 //-----------------------------------------------------------------------------
@@ -81,6 +82,9 @@ QString FilesTypeEditor::getFiles()
 
 void FilesTypeEditor::browseButtonClicked()
 {
+    //passiflora disables editing
+    return;
+
     QStringList fileList = QFileDialog::getOpenFileNames(this,
                                                       tr("Import Files"),
                                                       QDir::homePath()

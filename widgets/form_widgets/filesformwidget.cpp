@@ -10,6 +10,7 @@
 #include "../../components/metadataengine.h"
 #include "../../components/filemanager.h"
 #include "../../utils/metadatapropertiesparser.h"
+#include "../../utils/formwidgetvalidator.h"
 #include "../mainwindow.h"
 
 #include <QtWidgets/QLabel>
@@ -306,11 +307,11 @@ void FilesFormWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 
     QMenu menu(this);
-    menu.addAction(m_addAction);
+    //menu.addAction(m_addAction);
     if (m_filesTable->selectionModel()->selectedRows().size() > 0) {
         menu.addAction(m_openAction);
         menu.addAction(m_exportAction);
-        menu.addAction(m_deleteAction);
+        //menu.addAction(m_deleteAction);
     }
     menu.exec(event->globalPos());
 }
@@ -333,6 +334,9 @@ void FilesFormWidget::dragEnterEvent(QDragEnterEvent *event)
 
 void FilesFormWidget::dropEvent(QDropEvent *event)
 {
+    //passiflora disables editing
+    return;
+
     if (event->mimeData()->hasUrls()) {
         QList<QUrl> urls = event->mimeData()->urls();
         QStringList fileList;
@@ -358,8 +362,22 @@ void FilesFormWidget::dropEvent(QDropEvent *event)
 
 void FilesFormWidget::validateData()
 {
-    //always valid
-    emit dataEdited();
+    bool valid;
+
+    QString editMetadata = MetadataEngine::getInstance().getFieldProperties(
+                MetadataEngine::EditProperty, getFieldId());
+    FormWidgetValidator validator(editMetadata, MetadataEngine::FilesType);
+    QString errorMessage;
+
+    valid = validator.validate(getData(), errorMessage);
+
+    if (valid) {
+        emit dataEdited();
+    } else {
+        //inform FormView that the widget needs attention
+        //by animating the widget
+        emit requiresAttention(errorMessage);
+    }
 }
 
 
@@ -377,6 +395,9 @@ void FilesFormWidget::updateToolActions()
 
 void FilesFormWidget::addButtonClicked()
 {
+    //passiflora disables editing
+    return;
+
     QStringList files = QFileDialog::getOpenFileNames(this,
                                                       tr("Import Files"),
                                                       QDir::homePath()
@@ -389,6 +410,9 @@ void FilesFormWidget::addButtonClicked()
 
 void FilesFormWidget::removeButtonClicked()
 {
+    //passiflora disables editing
+    return;
+
     //ask for confirmation
     QMessageBox box(QMessageBox::Warning, tr("Delete Files"),
                     tr("Are you sure you want to delete the selected files?"

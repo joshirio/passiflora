@@ -17,6 +17,7 @@
 #include <QtCore/QFile>
 #include <QtWidgets/QProgressDialog>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QMessageBox>
 
 
 //-----------------------------------------------------------------------------
@@ -76,6 +77,9 @@ int ImageTypeEditor::getImage()
 
 void ImageTypeEditor::browseButtonClicked()
 {
+    //passiflora disables editing
+    return;
+
     QString file = QFileDialog::getOpenFileName(this,
                                                 tr("Import Image"),
                                                 QDir::homePath(),

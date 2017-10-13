@@ -169,3 +169,9 @@ int StandardModel::realRowCount()
 
     return rowCount();
 }
+
+bool StandardModel::setData(const QModelIndex &index,
+                            const QVariant &value, int role)
+{
+    return QSqlTableModel::setData(index, value, role);
+}

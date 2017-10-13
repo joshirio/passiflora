@@ -55,6 +55,9 @@ EmailFormWidget::EmailFormWidget(QWidget *parent) :
             this, SLOT(openURLActionTriggered()));
 
     updateFocusPolicy();
+
+    //passiflora, editing disabled
+    m_lineEdit->setReadOnly(true);
 }
 
 void EmailFormWidget::setFieldName(const QString &name)

@@ -333,7 +333,7 @@ void FormView::rowsInserted(const QModelIndex &parent, int start, int end)
 
 void FormView::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu menu(this);
+    /*QMenu menu(this);
     menu.addAction(m_newRecordContextAction);
     menu.addAction(m_duplicateRecordContextAction);
     menu.addAction(m_deleteRecordContextAction);
@@ -345,6 +345,10 @@ void FormView::contextMenuEvent(QContextMenuEvent *event)
         menu.addAction(m_deleteFieldContextAction);
     }
     menu.exec(event->globalPos());
+    */
+
+    //passiflora disables contetx menu
+    Q_UNUSED(event);
 }
 
 void FormView::keyPressEvent(QKeyEvent *event)
@@ -465,6 +469,9 @@ void FormView::resizeEvent(QResizeEvent *event)
 
 void FormView::mousePressEvent(QMouseEvent *event)
 {
+    //passiflora disables layout editing
+    return;
+
     //set start drag pos for a possible drag operation
     //the position is recorded so that in mouseMoveEvent
     //it is possible to distinguish mouse clicks from
@@ -516,6 +523,9 @@ void FormView::mousePressEvent(QMouseEvent *event)
 }
 void FormView::mouseMoveEvent(QMouseEvent *event)
 {
+    //passiflora disables layout editing
+    return;
+
     //TODO: do some optimizations/clean up for code reuse in this method
     bool startFWDrag = false;
 
@@ -824,6 +834,7 @@ void FormView::formWidgetDataChanged()
 
 void FormView::formWidgetRequireAttention(QString &message)
 {
+    /*
     FormWidget *fw = NULL;
     QObject *s = sender();
     if (s)
@@ -850,6 +861,10 @@ void FormView::formWidgetRequireAttention(QString &message)
     }
 
     MainWindow::getStatusBar()->showMessage(message);
+    */
+
+    //passiflora disables editing, so no need for this
+    Q_UNUSED(message);
 }
 
 void FormView::reloadModel()
