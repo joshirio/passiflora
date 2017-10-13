@@ -277,6 +277,9 @@ void ImageFormWidget::mouseMoveEvent(QMouseEvent *event)
     if (!isOnImgOrNoImgFrame(event->pos()))
         stop = true;
 
+    //passiflora disables drag from this field
+    stop = true;
+
     if (!m_currentFileId)
         stop = true;
     if (!(event->buttons() & Qt::LeftButton))
