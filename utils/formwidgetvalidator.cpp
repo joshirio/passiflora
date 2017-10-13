@@ -35,7 +35,7 @@ FormWidgetValidator::~FormWidgetValidator()
 bool FormWidgetValidator::validate(const QVariant &inputData,
                                    QString &errorMessage)
 {
-    bool valid = true;
+    /*bool valid = true;
 
     switch (m_fieldType) {
     case MetadataEngine::TextType:
@@ -60,7 +60,12 @@ bool FormWidgetValidator::validate(const QVariant &inputData,
         valid = true;
     }
 
-    return valid;
+    return valid;*/
+
+    //editing is disabled in passiflora
+    errorMessage.append(QObject::tr("Editing not allowed\n"));
+    Q_UNUSED(inputData);
+    return false;
 }
 
 
