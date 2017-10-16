@@ -71,7 +71,6 @@ protected slots:
     void validateData();
 
 private slots:
-    void browseButtonClicked();
     void setLastFileHashResult(const QString &hashName);
     void saveAsActionTriggered();
     void deleteActionTriggered();
@@ -92,10 +91,8 @@ private:
 
     QVBoxLayout *m_mainLayout;
     QLabel *m_fieldNameLabel;
-    QHBoxLayout *m_browseLayout;
     QFrame *m_noImageFrame;
     QVBoxLayout *m_frameLayout;
-    QPushButton *m_browseButton;
     QLabel *m_imageLabel;
     int m_currentFileId;
     QString m_lastFileHashResult;

@@ -60,37 +60,8 @@ ImageFormWidget::ImageFormWidget(QWidget *parent) :
     m_noImageFrame->setObjectName("noImgFrame");
     m_noImageFrame->setStyleSheet("QFrame#noImgFrame {border: 2px dashed lightgrey; border-radius: 12px;}");
     m_frameLayout = new QVBoxLayout(m_noImageFrame);
+    m_frameLayout->addStretch();
     m_frameLayout->setContentsMargins(0, 0, 0, 0);
-
-    QLabel *dragHereLabel = new QLabel(tr("Drag your image here"), m_noImageFrame);
-    dragHereLabel->setStyleSheet("color: grey;");
-    dragHereLabel->setWordWrap(true);
-    dragHereLabel->setAlignment(Qt::AlignHCenter);
-
-    QLabel *dragIcon = new QLabel(m_noImageFrame);
-    dragIcon->setScaledContents(true);
-    dragIcon->setMaximumSize(64, 64);
-    dragIcon->setMinimumSize(64, 64);
-    dragIcon->setPixmap(QPixmap(":/images/icons/draghere.png"));
-    QHBoxLayout *dragIconLayout = new QHBoxLayout;
-    dragIconLayout->addStretch();
-    dragIconLayout->addWidget(dragIcon);
-    dragIconLayout->addStretch();
-
-
-    m_browseButton = new QPushButton(tr("or click here..."), m_noImageFrame);
-    m_browseButton->setFlat(true);
-    m_browseButton->setStyleSheet("color: grey;");
-    m_browseLayout = new QHBoxLayout;
-    m_browseLayout->addStretch();
-    m_browseLayout->addWidget(m_browseButton);
-    m_browseLayout->addStretch();
-
-    m_frameLayout->addWidget(dragHereLabel);
-    m_frameLayout->addStretch();
-    m_frameLayout->addLayout(dragIconLayout);
-    m_frameLayout->addStretch();
-    m_frameLayout->addLayout(m_browseLayout);
 
     //image label
     m_imageLabel = new QLabel(this);
@@ -98,6 +69,7 @@ ImageFormWidget::ImageFormWidget(QWidget *parent) :
                                 QSizePolicy::MinimumExpanding);
     m_imageLabel->setVisible(false);
     m_imageLabel->setAlignment(Qt::AlignCenter);
+    m_imageLabel->setCursor(Qt::PointingHandCursor);
 
     //main layout
     m_mainLayout->addWidget(m_fieldNameLabel);
@@ -107,10 +79,6 @@ ImageFormWidget::ImageFormWidget(QWidget *parent) :
     this->heightUnits = 2;
     this->widthUnits = 1;
 
-    //connections
-    connect(m_browseButton, SIGNAL(clicked()),
-            this, SLOT(browseButtonClicked()));
-
     //contect menu actions
     m_selectAction = new QAction(tr("Select image..."), this);
     m_deleteAction = new QAction(tr("Delete image"), this);
@@ -118,8 +86,6 @@ ImageFormWidget::ImageFormWidget(QWidget *parent) :
     m_openAction = new QAction(tr("Open image"), this);
 
     //context menu connections
-    connect(m_selectAction, SIGNAL(triggered()),
-            this, SLOT(browseButtonClicked()));
     connect(m_saveAsAction, SIGNAL(triggered()),
             this, SLOT(saveAsActionTriggered()));
     connect(m_deleteAction, SIGNAL(triggered()),
@@ -254,17 +220,21 @@ void ImageFormWidget::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
 
-    if (!m_currentFileId) {
-        browseButtonClicked();
-    } else {
-        openActionTriggered();
+    if (m_currentFileId) {
+        //openActionTriggered(); //already done on signle click in passiflora
     }
 }
 
 void ImageFormWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-             m_dragStartPosition = event->pos();
+    if (event->button() == Qt::LeftButton) {
+             //m_dragStartPosition = event->pos(); //disabled on passiflora
+
+             //passiflora should open image on click
+             if (m_currentFileId) {
+                 openActionTriggered();
+             }
+    }
 
     QWidget::mousePressEvent(event);
 }
@@ -387,24 +357,6 @@ void ImageFormWidget::validateData()
 // Private slots
 //-----------------------------------------------------------------------------
 
-void ImageFormWidget::browseButtonClicked()
-{
-    //passiflora disables editing
-    return;
-
-    QString file = QFileDialog::getOpenFileName(this,
-                                                tr("Import Image"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png *.jpeg "
-                                                   "*.jpg *.tiff *.gif *.bmp *.svg)")
-                                                );
-
-    if (file.isEmpty())
-        return;
-
-    importImage(file);
-}
-
 void ImageFormWidget::setLastFileHashResult(const QString &hashName)
 {
     m_lastFileHashResult = hashName;
@@ -504,8 +456,7 @@ void ImageFormWidget::openActionTriggered()
 
 void ImageFormWidget::setupFocusPolicy()
 {
-    m_browseButton->setFocusPolicy(Qt::ClickFocus);
-    setFocusProxy(m_browseButton);
+    setFocusProxy(m_imageLabel);
     setFocusPolicy(Qt::StrongFocus);
 }
 
