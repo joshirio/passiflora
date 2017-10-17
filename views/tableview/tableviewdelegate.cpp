@@ -794,11 +794,19 @@ void TableViewDelegate::paintImageType(QPainter *painter,
     if (fileHash.isEmpty()) return;
 
     filePath = fm.getFilesDirectory() + fileHash;
-    QPixmap pixmap(filePath);
-    QRect imageRect = pixmap.scaled(QSize(opt.rect.width(),
-                                          opt.rect.height()),
-                                    Qt::KeepAspectRatio,
-                                    Qt::FastTransformation).rect();
+    QPixmap pixmap(filePath); //this call is extremely slow when scrolling tableview with images
+    //so passiflora hides the 2 columns with images,
+    //code below was to test caching but memory usage is just too high
+    /*QPixmap pixmap;
+    if (!QPixmapCache::find(fileHash, &pixmap)) {
+        pixmap.load(filePath);
+        pixmap = pixmap.scaled(QSize(opt.rect.width(),
+                                     opt.rect.height()),
+                               Qt::KeepAspectRatio,
+                               Qt::FastTransformation);
+        QPixmapCache::insert(fileHash, pixmap);
+    }*/
+    QRect imageRect = pixmap.rect();
     QRect drawRect(opt.rect);
 
     //center

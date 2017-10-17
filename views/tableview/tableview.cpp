@@ -194,6 +194,10 @@ void TableView::initView()
             this, SLOT(saveSectionSizes()), Qt::UniqueConnection);
     connect(horizontalHeader(), SIGNAL(sectionResized(int,int,int)),
             this, SLOT(saveSectionSizes()), Qt::UniqueConnection);
+
+    //passiflora, hide image columns
+    header->hideSection(8);
+    header->hideSection(9);
 }
 
 void TableView::saveSectionOrder()
