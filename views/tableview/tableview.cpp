@@ -198,6 +198,11 @@ void TableView::initView()
     //passiflora, hide image columns
     header->hideSection(8);
     header->hideSection(9);
+
+    //passiflora, increase row height
+    QHeaderView *verticalHeader = this->verticalHeader();
+    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader->setDefaultSectionSize(verticalHeader->defaultSectionSize() * 4);
 }
 
 void TableView::saveSectionOrder()
@@ -224,6 +229,7 @@ void TableView::saveSectionOrder()
 
 void TableView::saveSectionSizes()
 {
+    /* //not needed in passiflora, since sections are fixed
     //save section order
     SettingsManager s;
     QHeaderView *header = horizontalHeader();
@@ -242,6 +248,7 @@ void TableView::saveSectionSizes()
     }
 
     s.saveProperty("tableview_section_sizes", collection, list);
+    */
 }
 
 void TableView::editingFinished()
@@ -293,8 +300,11 @@ void TableView::restoreSectionOrder()
 
 void TableView::restoreSectionSizes()
 {
+    //passiflora, set default sizes
+    this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); //this makes the code below obsolete
+
     //restore section order
-    SettingsManager s;
+    /*SettingsManager s;
     QHeaderView *header = horizontalHeader();
     int id = MetadataEngine::getInstance().getCurrentCollectionId();
     QString collection = QString("collection_") + QString::number(id);
@@ -309,5 +319,5 @@ void TableView::restoreSectionSizes()
     for (int i = 0; i < sectionSizes.size(); i++) {
         int visualIndex = header->visualIndex(i+1); //+1 because of _id column 0
         header->resizeSection(visualIndex, sectionSizes.at(i));
-    }
+    }*/
 }
