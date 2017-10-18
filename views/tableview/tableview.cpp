@@ -279,9 +279,13 @@ void TableView::createContextActions()
 
 void TableView::restoreSectionOrder()
 {
+    QHeaderView *header = horizontalHeader();
+
+    //passiflora, set custom order before loading user settings, as default
+    header->moveSection(6, 7); //move change date to last column
+
     //restore section order
     SettingsManager s;
-    QHeaderView *header = horizontalHeader();
     int id = MetadataEngine::getInstance().getCurrentCollectionId();
     QString collection = QString("collection_") + QString::number(id);
     QList<int> sectionOrder;
