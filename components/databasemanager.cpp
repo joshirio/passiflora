@@ -167,7 +167,8 @@ void DatabaseManager::openDatabase()
     }
 
     if (!db_exists && open) {
-        initDatabase(database);
+        //initDatabase(database); //passiflora, skip db creation
+        return;
     }
 
 

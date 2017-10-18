@@ -34,24 +34,6 @@ class EmptyFormWidget : public QWidget
     Q_OBJECT
     
 public:
-
-    /**
-     * This enum represents the states in which this
-     * help widget can be
-     */
-    enum State {
-        AllMissing, /**< There are no collections, fields nor records */
-        FieldMissing, /**< Collections: yes, Fields: no, Records: no */
-        RecordMissing, /**< Collections: yes, Fields: yes, Records: no */
-        MissingModel /**< Model is not set */
-    };
-
-    /**
-     * Set the state of the help messages, according to the state,
-     * some messages are shown or hidde
-     */
-    void setState(State s);
-
     explicit EmptyFormWidget(QWidget *parent = 0);
     ~EmptyFormWidget();
     

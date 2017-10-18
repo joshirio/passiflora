@@ -924,20 +924,7 @@ void FormView::updateEmptyState()
     else
         isEmpty = true;
 
-    bool noFields = m_metadataEngine->getFieldCount() <= 1; //1 cause of _id
-    bool noCollections = !m_metadataEngine->getCurrentCollectionId();
-
-    if (isEmpty || noFields) { //now model is empty 
-        //setup messages
-        if (noCollections)
-            m_emptyFormWidget->setState(EmptyFormWidget::AllMissing);
-        else if (noFields)
-            m_emptyFormWidget->setState(EmptyFormWidget::FieldMissing);
-        else if (!model())
-            m_emptyFormWidget->setState(EmptyFormWidget::MissingModel);
-        else
-            m_emptyFormWidget->setState(EmptyFormWidget::RecordMissing);
-
+    if (isEmpty) { //now model is empty
         m_emptyFormWidget->setVisible(true);
         m_emptyFormWidget->raise();
     } else { //now model is not empty
