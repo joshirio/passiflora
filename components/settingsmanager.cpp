@@ -385,6 +385,28 @@ QHash<QString, QDateTime> SettingsManager::restoreToWatchList()
     return map;
 }
 
+void SettingsManager::saveLicenseKey(const QString &keyString,
+                                     const QString &nameString,
+                                     const QString &emailString)
+{
+    m_settings->beginGroup(DefinitionHolder::NAME.toLower());
+    m_settings->setValue("lks", keyString);
+    m_settings->setValue("lns", nameString);
+    m_settings->setValue("les", emailString);
+    m_settings->endGroup();
+}
+
+void SettingsManager::restoreLicenseKey(QString &keyString,
+                                        QString &nameString,
+                                        QString &emailString) const
+{
+    m_settings->beginGroup(DefinitionHolder::NAME.toLower());
+    keyString = m_settings->value("lks", "").toString();
+    nameString = m_settings->value("lns", "").toString();
+    emailString = m_settings->value("les", "").toString();
+    m_settings->endGroup();
+}
+
 
 //-----------------------------------------------------------------------------
 // Private

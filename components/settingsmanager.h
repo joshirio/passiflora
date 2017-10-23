@@ -169,6 +169,21 @@ public:
     /** Restore list of files to watch/check for changes */
     QHash<QString,QDateTime> restoreToWatchList();
 
+    /** Save license key details */
+    void saveLicenseKey(const QString &keyString,
+                        const QString &nameString,
+                        const QString &emailString);
+
+    /** Restore license key details
+     * Return values are stored in reference args
+     * @param keyString - string where licenseKey is restored to
+     * @param nameString - string where name is saved to
+     * @param emailString - string where email is restored to
+     */
+    void restoreLicenseKey(QString &keyString,
+                           QString &nameString,
+                           QString &emailString) const;
+
 private:
     QSettings *m_settings;
 };
