@@ -54,13 +54,17 @@ bool ActivationManager::checkLicenseKey(const QString &keyString,
                                         const QString &nameString,
                                         const QString &emailString) const
 {
+    //avoid calc for empty input
+    if (keyString.isEmpty() || nameString.isEmpty() || emailString.isEmpty())
+        return false;
+
     QByteArray cH, rS, eS;
     cH = QCryptographicHash::hash(
-                QCryptographicHash::hash(nameString.toLatin1(),
-                                         QCryptographicHash::Sha1)
-                .append(QCryptographicHash::hash(emailString.toLatin1(),
-                                                 QCryptographicHash::Sha1)),
-                QCryptographicHash::Sha1);
+                QCryptographicHash::hash(nameString.toLower().toLatin1(),
+                                         QCryptographicHash::Sha1).toHex()
+                .append(QCryptographicHash::hash(emailString.toLower().toLatin1(),
+                                                 QCryptographicHash::Sha1).toHex()),
+                QCryptographicHash::Sha1).toHex();
 
    for (int i = 0; i < cH.length(); ++i) {
        if (!(i % 3)) {
@@ -107,5 +111,5 @@ bool ActivationManager::checkLicenseKey(const QString &keyString,
        }
    }
 
-   return QString(eS).toUpper() == keyString;
+   return QString(eS).toUpper() == keyString.toUpper();
 }

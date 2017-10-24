@@ -390,9 +390,9 @@ void SettingsManager::saveLicenseKey(const QString &keyString,
                                      const QString &emailString)
 {
     m_settings->beginGroup(DefinitionHolder::NAME.toLower());
-    m_settings->setValue("lks", keyString);
-    m_settings->setValue("lns", nameString);
-    m_settings->setValue("les", emailString);
+    m_settings->setValue("lks", keyString.toUtf8().toBase64());
+    m_settings->setValue("lns", nameString.toUtf8().toBase64());
+    m_settings->setValue("les", emailString.toUtf8().toBase64());
     m_settings->endGroup();
 }
 
@@ -401,9 +401,9 @@ void SettingsManager::restoreLicenseKey(QString &keyString,
                                         QString &emailString) const
 {
     m_settings->beginGroup(DefinitionHolder::NAME.toLower());
-    keyString = m_settings->value("lks", "").toString();
-    nameString = m_settings->value("lns", "").toString();
-    emailString = m_settings->value("les", "").toString();
+    keyString = QByteArray::fromBase64(m_settings->value("lks", "").toByteArray());
+    nameString = QByteArray::fromBase64(m_settings->value("lns", "").toByteArray());
+    emailString = QByteArray::fromBase64(m_settings->value("les", "").toByteArray());
     m_settings->endGroup();
 }
 

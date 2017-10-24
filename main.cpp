@@ -7,6 +7,8 @@
 //-----------------------------------------------------------------------------
 
 #include "widgets/mainwindow.h"
+#include "widgets/activationdialog.h"
+#include "components/activationmanager.h"
 #include "utils/definitionholder.h"
 #include "utils/qtsingleapplication/qtsingleapplication.h"
 
@@ -44,6 +46,14 @@ int main(int argc, char *argv[])
     QTranslator myappTranslator;
     myappTranslator.load("passiflora_" + QLocale::system().name(), ":/languages");
     passifloraApp.installTranslator(&myappTranslator);
+
+    //activation
+    ActivationManager am;
+    if (!am.isActiveAndValid()) {
+        ActivationDialog ad;
+        if (ad.exec() == QDialog::Rejected)
+            return 0; //quit
+    }
 
     //init gui
     MainWindow w;

@@ -90,7 +90,8 @@ SOURCES += main.cpp\
     widgets/field_widgets/urlfieldwizard.cpp \
     widgets/field_widgets/emailfieldwizard.cpp \
     widgets/form_widgets/emailformwidget.cpp \
-    components/activationmanager.cpp
+    components/activationmanager.cpp \
+    widgets/activationdialog.cpp
 
 HEADERS  += widgets/mainwindow.h \
     utils/definitionholder.h \
@@ -161,7 +162,8 @@ HEADERS  += widgets/mainwindow.h \
     widgets/field_widgets/urlfieldwizard.h \
     widgets/field_widgets/emailfieldwizard.h \
     widgets/form_widgets/emailformwidget.h \
-    components/activationmanager.h
+    components/activationmanager.h \
+    widgets/activationdialog.h
 
 RESOURCES += \
     resources/resources.qrc
@@ -185,7 +187,8 @@ FORMS += \
     ui/importdialog.ui \
     ui/aboutdialog.ui \
     ui/urlfieldwizard.ui \
-    ui/emailfieldwizard.ui
+    ui/emailfieldwizard.ui \
+    ui/activationdialog.ui
 
 TRANSLATIONS = stuff/translations/passiflora_de.ts
 
