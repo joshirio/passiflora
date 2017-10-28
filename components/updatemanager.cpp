@@ -216,7 +216,8 @@ void UpdateManager::updateResponseSlot(QNetworkReply *reply)
         }
     } else if (currentOp == UpdateRequestOperation::PlantDbFileDownloadOp) {
         DatabaseManager *dbm = &DatabaseManager::getInstance();
-        bool error, backupDone = false;
+        bool error, backupDone;
+        error = backupDone = false;
         QString errorString = "";
         QString dbFilePath = dbm->getDatabasePath();
         dbm->destroy(); //close db connection
