@@ -12,6 +12,8 @@
 #include "../utils/definitionholder.h"
 #include "../components/settingsmanager.h"
 
+#include <QtWidgets/QLabel>
+
 
 //-----------------------------------------------------------------------------
 // Public
@@ -27,6 +29,11 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->versionLabel->setText(DefinitionHolder::VERSION);
     ui->buildLabel->setText(QString::number(DefinitionHolder::SOFTWARE_BUILD));
     ui->copyRightLabel->setText(DefinitionHolder::COPYRIGHT);
+
+    SettingsManager sm;
+    QString ks, ns, es;
+    sm.restoreLicenseKey(ks, ns, es);
+    ui->licensedToName->setText(ns);
 
     //connections
     connect(ui->closeButton, SIGNAL(clicked()),
