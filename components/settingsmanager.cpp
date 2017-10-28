@@ -407,6 +407,42 @@ void SettingsManager::restoreLicenseKey(QString &keyString,
     m_settings->endGroup();
 }
 
+void SettingsManager::savePlantDatabaseVersion(quint64 revision)
+{
+    m_settings->beginGroup("plantDb");
+    m_settings->setValue("revision", revision);
+    m_settings->endGroup();
+}
+
+quint64 SettingsManager::restorePlantDatabaseVersion()
+{
+    quint64 r;
+
+    m_settings->beginGroup("plantDb");
+    r = m_settings->value("revision", 0).toULongLong();
+    m_settings->endGroup();
+
+    return r;
+}
+
+void SettingsManager::saveLastPlantDatabaseSyncAborted(bool b)
+{
+    m_settings->beginGroup("plantDb");
+    m_settings->setValue("syncIncomplete", b);
+    m_settings->endGroup();
+}
+
+bool SettingsManager::restoresaveLastPlantDatabaseSyncAborted()
+{
+    bool r;
+
+    m_settings->beginGroup("plantDb");
+    r = m_settings->value("syncIncomplete", false).toBool();
+    m_settings->endGroup();
+
+    return r;
+}
+
 
 //-----------------------------------------------------------------------------
 // Private

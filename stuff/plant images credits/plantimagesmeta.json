@@ -223,7 +223,12 @@
         {
             "name":"Vaccinium myrtillus",
             "license html":"<a href=\"https:\/\/de.wikipedia.org\/wiki\/Benutzer:Silar\">Marek Silarski<\/a>, <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Bieszczady_Flora.jpg\">Bieszczady Flora<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\">CC BY-SA 3.0<\/a>",
-            "database file name":"ac05b9481c3a5afad728c4d972c995b.jpg"
+            "database file name":"7ac05b9481c3a5afad728c4d972c995b.jpg"
+        },
+        {
+            "name":"Vaccinium myrtillus",
+            "license html":"Geimeinfrei (Public Domain)",
+            "database file name":"1002412befb8f816729e8de291d603f3.jpg"
         },
         {
             "name":"Calendula officinalis",
@@ -1579,6 +1584,16 @@
             "name":"Potentilla anserina",
             "license html":"Geimeinfrei (Public Domain)",
             "database file name":"5ae92a590857ef7bcb7d6b1803f727ce.jpg"
+        },
+        {
+            "name":"Pareira brava",
+            "license html":"<a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Krish_Dulal\">Krish Dulal<\/a>, <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Cissampelos_pareira_fruits.JPG\">Cissampelos pareira fruits<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\">CC BY-SA 3.0<\/a>",
+            "database file name":"574908ac81b61c09c4f2d8f16b0616f6.JPG"
+        },
+        {
+            "name":"Pareira brava",
+            "license html":"<a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Shyamal\">L. Shyamal<\/a>, <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Cissampelos_pareira_Wynaad.jpg\">Cissampelos pareira Wynaad<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\">CC BY-SA 3.0<\/a>",
+            "database file name":"5836f671b08301555deab8b1d0a0d761.jpg"
         },
         {
             "name":"Tussilago farfara",

@@ -134,6 +134,11 @@ QString FileManager::getFilesDirectory()
     return m_fileDirPath;
 }
 
+QString FileManager::getPlantImageMetaJsonFilePath()
+{
+    return m_fileDirPath + "plantimagesmeta.json";
+}
+
 QStringList FileManager::fileListToDownload()
 {
     QStringList downloadFileList;

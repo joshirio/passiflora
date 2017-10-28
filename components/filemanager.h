@@ -76,6 +76,9 @@ public:
     /** Return directory where db content files are saved */
     QString getFilesDirectory();
 
+    /** Return image meta json file path */
+    QString getPlantImageMetaJsonFilePath();
+
     /** Return a list of files that should be downloaded (sync) */
     QStringList fileListToDownload();
 

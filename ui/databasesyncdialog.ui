@@ -16,6 +16,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -72,7 +75,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>&lt;p&gt;Spagyrik Datenbank Passiflora is Open-source Software, 
+          <string>&lt;p&gt;Spagyrik Datenbank Passiflora is Open-source software, 
 based on the &lt;a href=&quot;https://giowck.github.io/symphytum/&quot;&gt;Symphytum Database&lt;/a&gt;.
 &lt;br /&gt;&lt;br /&gt;
 The plant database file is not part of the software codebase and is aimed only at users that are holders of a valid license key.
@@ -152,7 +155,7 @@ An unauthorized distribution of the database file is considered as copyright inf
      <widget class="QWidget" name="databaseDownload">
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="downloadingTitleLabel">
          <property name="styleSheet">
           <string notr="true">font-size: 16px;</string>
          </property>
@@ -165,15 +168,35 @@ An unauthorized distribution of the database file is considered as copyright inf
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="syncStatusLabel">
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
            <property name="text">
-            <string>current sync status</string>
+            <string>Download progress</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QProgressBar" name="syncTotalProgressBar">
+           <property name="maximum">
+            <number>0</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="syncStatusLabel">
+           <property name="text">
+            <string>Checking...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
           <widget class="QProgressBar" name="syncProgressBar">
            <property name="maximum">
             <number>0</number>
@@ -183,7 +206,7 @@ An unauthorized distribution of the database file is considered as copyright inf
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="2">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -247,6 +270,9 @@ An unauthorized distribution of the database file is considered as copyright inf
            <property name="text">
             <string>&amp;Next</string>
            </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -291,6 +317,15 @@ An unauthorized distribution of the database file is considered as copyright inf
              <property name="text">
               <string>html here</string>
              </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+             </property>
             </widget>
            </item>
            <item>
@@ -329,6 +364,9 @@ An unauthorized distribution of the database file is considered as copyright inf
           <widget class="QPushButton" name="imageLicenseCancelButton">
            <property name="text">
             <string>&amp;Cancel</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

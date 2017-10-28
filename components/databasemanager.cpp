@@ -167,10 +167,9 @@ void DatabaseManager::openDatabase()
     }
 
     if (!db_exists && open) {
-        //initDatabase(database); //passiflora, skip db creation
+        initDatabase(database);
         return;
     }
-
 
     //check database version
     //upgrade if possible
@@ -221,7 +220,7 @@ void DatabaseManager::initDatabase(QSqlDatabase &database)
     query.exec(SQL_CREATE_TABLE_ALARMS);
 
     //init info data
-    query.prepare("INSERT INTO \"symphytum_info\" (\"key\",\"value\") VALUES"
+    /*query.prepare("INSERT INTO \"symphytum_info\" (\"key\",\"value\") VALUES"
                   "(\"db_version\", :version)");
     query.bindValue(":version", DefinitionHolder::DATABASE_VERSION);
     query.exec();
@@ -291,6 +290,7 @@ void DatabaseManager::initDatabase(QSqlDatabase &database)
     query.exec("INSERT INTO \"files\" VALUES (\"2\",\"calendula.jpg\",\"81f87c38d8fd4cff00f35847e454e753.jpg\",\"2012-12-01T16:00:00\")");
     query.exec("INSERT INTO \"files\" VALUES (\"3\",\"coffea.jpg\",\"fd461a1f28d6682993422d65dafa2ddf.jpg\",\"2012-12-01T16:00:00\")");
     query.exec("INSERT INTO \"symphytum_info\" (\"key\",\"value\") VALUES (\"current_collection\",\"1\")");
+    */
 
     if (!database.commit()) {
         QString err = query.lastError().text();
@@ -300,6 +300,7 @@ void DatabaseManager::initDatabase(QSqlDatabase &database)
                               .arg(err));
     }
 
+    /*
     //copy example files
     QString filesDir = FileManager().getFilesDirectory();
     QFile::copy(":/images/sample/symphytum.jpg", filesDir + "25993661ea0bdede9699836f9ba0956b.jpg");
@@ -314,6 +315,8 @@ void DatabaseManager::initDatabase(QSqlDatabase &database)
     f.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadOther | QFile::WriteOther);
     f.setFileName(filesDir + "fd461a1f28d6682993422d65dafa2ddf.jpg");
     f.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadOther | QFile::WriteOther);
+    */
+    //passiflora, no init needed
 }
 
 void DatabaseManager::deleteDatabase()

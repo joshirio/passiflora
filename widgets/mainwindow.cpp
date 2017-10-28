@@ -24,6 +24,7 @@
 #include "backupdialog.h"
 #include "printdialog.h"
 #include "aboutdialog.h"
+#include "databasesyncdialog.h"
 #include "../components/updatemanager.h"
 #include "../utils/collectionfieldcleaner.h"
 
@@ -96,6 +97,7 @@ MainWindow::~MainWindow()
 
     m_metadataEngine->destroy();
     DatabaseManager::destroy();
+    m_updateManager->destroy();
 }
 
 MainWindow::ViewMode MainWindow::getCurrentViewMode()
@@ -209,6 +211,7 @@ void MainWindow::preferenceActionTriggered()
 
         //delete db
         QFile::remove(fullDbPath);
+        QFile::remove(fullDbPath + ".backup"); //passiflora, rm possible backup
         pd->setValue(4);
         qApp->processEvents();
 
@@ -1096,13 +1099,15 @@ void MainWindow::checkForUpdatesSlot()
         return;
 
     if (!m_updateManager) {
-        m_updateManager = new UpdateManager(this);
+        m_updateManager = &UpdateManager::getInstance();
         connect(m_updateManager, SIGNAL(noUpdateSignal()),
                 this, SLOT(noUpdateFoundSlot()));
         connect(m_updateManager, SIGNAL(updateErrorSignal()),
                 this, SLOT(updateErrorSlot()));
         connect(m_updateManager, SIGNAL(updatesAccepted()),
                 this, SLOT(close()));
+        connect(m_updateManager, SIGNAL(plantDatabaseUpdateSinal()),
+                this, SLOT(plantDatabaseUpdateSlot()));
     }
 
     //start async update check
@@ -1120,6 +1125,34 @@ void MainWindow::updateErrorSlot()
     statusBar()->showMessage(tr("Error while checking for software updates"));
 }
 
+void MainWindow::plantDatabaseUpdateSlot()
+{
+    statusBar()->showMessage(tr("New plant database revision available!"));
+    this->syncDatabaseActionTriggered();
+}
+
+void MainWindow::syncDatabaseActionTriggered()
+{
+    //detach views
+    detachModelFromViews();
+    detachCollectionModelView();
+
+    DatabaseSyncDialog d(this);
+    d.exec();
+
+    //attach views
+    attachCollectionModelView();
+    m_metadataEngine->setCurrentCollectionId(m_metadataEngine->getCurrentCollectionId());
+
+    //clear undo stack since id may not be valid anymore
+    if (m_undoStack)
+        m_undoStack->clear();
+}
+
+void MainWindow::checkDatabaseUpdateActionTriggered()
+{
+    this->checkForUpdatesSlot();
+}
 
 //-----------------------------------------------------------------------------
 // Private
@@ -1224,6 +1257,12 @@ void MainWindow::createActions()
     m_printAction = new QAction(tr("Print..."), this);
     m_printAction->setStatusTip(tr("Print records or export them as PDF"));
     m_printAction->setShortcut(QKeySequence::Print);
+
+    m_syncDatabaseAction = new QAction(tr("Download plant database"), this);
+    m_syncDatabaseAction->setStatusTip(tr("Force plant database file download"));
+
+    m_checkDatabaseUpdateAction = new QAction(tr("Check for database updates"), this);
+    m_checkDatabaseUpdateAction->setToolTip(tr("Check for plant database updates to download"));
 }
 
 void MainWindow::createToolBar()
@@ -1316,6 +1355,8 @@ void MainWindow::createMenu()
 
     m_databaseMenu = new QMenu(tr("Database"), this);
     m_databaseMenu->addAction(m_optimizeDbSizeAction);
+    m_databaseMenu->addAction(m_checkDatabaseUpdateAction);
+    m_databaseMenu->addAction(m_syncDatabaseAction);
 
     m_toolsMenu = menuBar()->addMenu(tr("&Tools"));
     m_toolsMenu->addMenu(m_recordsMenu);
@@ -1413,6 +1454,10 @@ void MainWindow::createConnections()
             this, SLOT(checkForUpdatesSlot()));
     connect(m_printAction, SIGNAL(triggered()),
             this, SLOT(printActionTriggered()));
+    connect(m_syncDatabaseAction, SIGNAL(triggered(bool)),
+            this, SLOT(syncDatabaseActionTriggered()));
+    connect(m_checkDatabaseUpdateAction, SIGNAL(triggered(bool)),
+            this, SLOT(checkDatabaseUpdateActionTriggered()));
 
     //record actions
     connect(m_newRecordAction, SIGNAL(triggered()),

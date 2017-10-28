@@ -184,6 +184,18 @@ public:
                            QString &nameString,
                            QString &emailString) const;
 
+    /** Save plant database revision number */
+    void savePlantDatabaseVersion(quint64 revision);
+
+    /** Restore plant database revision number */
+    quint64 restorePlantDatabaseVersion();
+
+    /** Last plant database sync incomplete state */
+    void saveLastPlantDatabaseSyncAborted(bool b);
+
+    /** Was last plant database sync aborted? */
+    bool restoresaveLastPlantDatabaseSyncAborted();
+
 private:
     QSettings *m_settings;
 };

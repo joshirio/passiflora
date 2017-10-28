@@ -106,11 +106,14 @@ private slots:
     void selectAllActionTriggered();
     void backupActionTriggered();
     void printActionTriggered();
+    void syncDatabaseActionTriggered();
+    void checkDatabaseUpdateActionTriggered();
 
     //updates
     void checkForUpdatesSlot();
     void noUpdateFoundSlot();
     void updateErrorSlot();
+    void plantDatabaseUpdateSlot();
 
 private:
     void createActions();
@@ -179,6 +182,8 @@ private:
     QAction *m_selectAllAction;
     QAction *m_checkUpdatesAction;
     QAction *m_printAction;
+    QAction *m_syncDatabaseAction;
+    QAction *m_checkDatabaseUpdateAction;
 #ifdef Q_OS_OSX
     QAction *m_minimizeAction;
     QAction *m_closeWindowAction;
