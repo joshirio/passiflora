@@ -63,12 +63,14 @@ private:
     QString progressTypeItemHtml(const QVariant &data, int fieldId);
     QString imageTypeItemHtml(const QVariant &data, int fieldId);
     QString filesTypeItemHtml(const QVariant &data, int fieldId);
+    QString generateImgLicensingInfo();
 
     Ui::PrintDialog *ui;
     QList<int> m_recordList; /**< List of record ids to print */
     int m_collectionId;
     MetadataEngine *m_metadataEngine;
     bool m_printCancelled;
+    QStringList m_printedPlantImages;
 };
 
 #endif // PRINTDIALOG_H

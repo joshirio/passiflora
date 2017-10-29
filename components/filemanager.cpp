@@ -200,6 +200,9 @@ QStringList FileManager::unneededLocalFileList()
             unneededFileList.append(s);
     }
 
+    //keep image metadata json file
+    unneededFileList.removeOne("plantimagesmeta.json");
+
     return unneededFileList;
 }
 
