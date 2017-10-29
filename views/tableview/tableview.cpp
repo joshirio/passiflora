@@ -36,6 +36,11 @@ TableView::TableView(QWidget *parent) :
 
     //passiflora disables editing
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    //passiflora, increase row height
+    QHeaderView *verticalHeader = this->verticalHeader();
+    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader->setDefaultSectionSize(verticalHeader->defaultSectionSize() * 4);
 }
 
 void TableView::setModel(QAbstractItemModel *model)
@@ -198,11 +203,6 @@ void TableView::initView()
     //passiflora, hide image columns
     header->hideSection(8);
     header->hideSection(9);
-
-    //passiflora, increase row height
-    QHeaderView *verticalHeader = this->verticalHeader();
-    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
-    verticalHeader->setDefaultSectionSize(verticalHeader->defaultSectionSize() * 4);
 }
 
 void TableView::saveSectionOrder()
