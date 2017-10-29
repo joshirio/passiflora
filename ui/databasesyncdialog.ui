@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Plant Database Sync</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -307,8 +307,8 @@ An unauthorized distribution of the database file is considered as copyright inf
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>636</width>
-            <height>244</height>
+            <width>96</width>
+            <height>76</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

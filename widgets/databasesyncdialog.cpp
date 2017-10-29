@@ -84,11 +84,11 @@ void DatabaseSyncDialog::syncMetadataRequestResponse(UpdateManager::UpdateCheckM
     if (metadata->plantDbMinBuild > ((quint64) DefinitionHolder::SOFTWARE_BUILD)) {
         QMessageBox::critical(this, tr("Software outdated!"),
                               tr("The new database format requires a newer software version."
-                                 "<br />Please update your software version first!"
+                                 "<br />Please update your software version first!")
                                  #ifndef Q_OS_MACOS
-                                 "<br /><br />Go to menu: <b>Help->Check for updates</b>"),
+                                 + tr("<br /><br />Go to menu: <b>Help->Check for updates</b>"),
                                  #else
-                                 "<br /><br />Go to menu: <b>%1->Check for updates</b>")
+                                 + tr("<br /><br />Go to menu: <b>%1->Check for updates</b>")
                                  .arg(DefinitionHolder::NAME),
                                  #endif
                               QMessageBox::Ok);
