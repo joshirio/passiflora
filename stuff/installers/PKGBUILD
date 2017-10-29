@@ -1,12 +1,12 @@
 # Maintainer: Giorgio Wicklein <giowckln@gmail.com>
-pkgname=symphytum
-pkgver=2.1
+pkgname=passiflora
+pkgver=2.2
 pkgrel=1
-pkgdesc="Personal database software"
+pkgdesc="Spagyrik Datenbank Passiflora"
 arch=('i686' 'x86_64')
-url="http://giowck.github.io/symphytum/"
+url="https://github.com/joshirio/passiflora"
 license=('BSD')
-depends=('qt5-base' 'qt5-svg' 'sqlite' 'python3' 'python-setuptools' 'python-six' 'python-certifi' 'python-chardet' 'python-idna' 'python-requests' 'python-urllib3')
+depends=('qt5-base' 'qt5-svg' 'sqlite')
 source=("https://github.com/giowck/symphytum/releases/download/v$pkgver/$pkgname-$pkgver-src.tar.gz")
 md5sums=('400484e8b06d77491012989f69105c11')
 
@@ -25,10 +25,6 @@ package() {
   install -d "${pkgdir}/usr/share/"
   cp -R "$srcdir/stuff/installers/deb/usr/share/applications/" "${pkgdir}/usr/share/"
   cp -R "$srcdir/stuff/installers/deb/usr/share/pixmaps/" "${pkgdir}/usr/share/"
-
-  # Sync framework files
-  install -d "${pkgdir}/usr/share/symphytum/"
-  cp -R "$srcdir/stuff/installers/deb/usr/share/symphytum/" "${pkgdir}/usr/share/"
 
   # Copy license
   install -Dm644 "$srcdir/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
