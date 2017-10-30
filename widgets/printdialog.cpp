@@ -526,6 +526,11 @@ QString PrintDialog::generateImgLicensingInfo()
 
     if (!m_printedPlantImages.isEmpty()) {
 
+        //init progress
+        ui->progressBar->setRange(0, m_printedPlantImages.size());
+        ui->progressBar->setValue(0);
+        qApp->processEvents();
+
         //init html
         html.append(tr("<p class=\"header\">The contained images are under the following "
                        "licensing conditions: <br />"));
@@ -566,6 +571,13 @@ QString PrintDialog::generateImgLicensingInfo()
                 html.append("<br /><b>" + plantName + "</b><br />");
                 html.append(licenseHtml);
                 html.append("<br />" + fileName + "<br />");
+            }
+
+            //update progress
+            ui->progressBar->setValue(ui->progressBar->value()+1);
+            qApp->processEvents();
+            if (m_printCancelled) {
+                reject();
             }
         }
     }
