@@ -307,15 +307,15 @@ An unauthorized distribution of the database file is considered as copyright inf
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>96</width>
-            <height>76</height>
+            <width>636</width>
+            <height>244</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <widget class="QLabel" name="imageLicenseLabel">
              <property name="text">
-              <string>html here</string>
+              <string>&lt;h3&gt;Loading image data... Please wait!&lt;/h3&gt;</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -372,6 +372,9 @@ An unauthorized distribution of the database file is considered as copyright inf
          </item>
          <item>
           <widget class="QPushButton" name="imageLicenseNextButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>&amp;Next</string>
            </property>

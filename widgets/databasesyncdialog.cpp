@@ -60,11 +60,11 @@ void DatabaseSyncDialog::syncCancelButtonClicked()
 
 void DatabaseSyncDialog::syncNextButtonClicked()
 {
+    ui->stackedWidget->setCurrentIndex(2);
+    qApp->processEvents();
+
     //load image licensing info to view
     createImageLicensingAndDisplayResults();
-
-    ui->stackedWidget->setCurrentIndex(2);
-    ui->imageLicenseNextButton->setFocus();
 }
 
 void DatabaseSyncDialog::imageLicenseNextButtonClicked()
@@ -360,4 +360,7 @@ void DatabaseSyncDialog::createImageLicensingAndDisplayResults()
     htmlString.append("</table>");
 
     ui->imageLicenseLabel->setText(htmlString);
+
+    ui->imageLicenseNextButton->setEnabled(true);
+    ui->imageLicenseNextButton->setFocus();
 }

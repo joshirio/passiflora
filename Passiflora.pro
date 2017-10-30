@@ -7,7 +7,7 @@
 QT       += core gui sql network svg widgets printsupport
 
 macx {
-    TARGET = Passiflora
+    TARGET = "Spagyrik Datenbank Passiflora"
 }
 
 unix:!macx|win32 {
