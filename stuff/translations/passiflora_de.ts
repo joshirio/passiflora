@@ -1774,12 +1774,17 @@ Eine nichtautorisierte weitergabe der Datenbankdatei gilt als Urheberrechtsverle
         <translation>Entferne alte Dateien...</translation>
     </message>
     <message>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="332"/>
+        <source>Download complete!</source>
+        <translation>Download fertig!</translation>
+    </message>
+    <message>
         <location filename="../../widgets/databasesyncdialog.cpp" line="333"/>
         <source>Completed!</source>
         <translation>Fertig!</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="354"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="352"/>
         <source>&quot;&gt;Click&lt;br /&gt;to view&lt;/a&gt;&lt;/td&gt;</source>
         <translation>&quot;&gt;Ansehen&lt;br /&gt;durch Klicken&lt;/a&gt;&lt;/td&gt;</translation>
     </message>

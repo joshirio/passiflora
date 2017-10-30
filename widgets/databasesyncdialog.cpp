@@ -329,7 +329,7 @@ void DatabaseSyncDialog::setDatabaseDownloadComplete()
         QFile::remove(filesDir + s);
     }
 
-    ui->downloadingTitleLabel->setText("Download complete!");
+    ui->downloadingTitleLabel->setText(tr("Download complete!"));
     ui->syncStatusLabel->setText(tr("Completed!"));
     ui->syncTotalProgressBar->setRange(0, 100);
     ui->syncProgressBar->setRange(0, 100);
@@ -341,8 +341,6 @@ void DatabaseSyncDialog::setDatabaseDownloadComplete()
 
 void DatabaseSyncDialog::createImageLicensingAndDisplayResults()
 {
-    ui->imageLicenseLabel->clear();
-
     //create html string
     FileManager fm(this);
     QString filesDir = fm.getFilesDirectory();
@@ -350,12 +348,17 @@ void DatabaseSyncDialog::createImageLicensingAndDisplayResults()
     htmlString.append("<table>");
     foreach (UpdateManager::PlantImageMetadata *p, m_plantImagesList) {
         htmlString.append("<tr><td>");
-        htmlString.append("<a href=\"file://" + filesDir + p->filename
-                          + tr("\">Click<br />to view</a></td>"));
+#ifdef Q_OS_WIN
+        htmlString.append("<a href=\"file:///" + filesDir + p->filename);
+#else
+        htmlString.append("<a href=\"file://" + filesDir + p->filename);
+#endif
+        htmlString.append(tr("\">Click<br />to view</a></td>"));
         htmlString.append("<td><b>" + p->plantName + "</b><br />");
         htmlString.append(p->licenseString);
         htmlString.append("<br />" + p->filename + "<br />");
         htmlString.append("</td></tr>");
+        qApp->processEvents();
     }
     htmlString.append("</table>");
 
