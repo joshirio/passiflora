@@ -1663,7 +1663,7 @@ Eine nichtautorisierte weitergabe der Datenbankdatei gilt als Urheberrechtsverle
     </message>
     <message>
         <location filename="../../ui/databasesyncdialog.ui" line="271"/>
-        <location filename="../../ui/databasesyncdialog.ui" line="376"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="379"/>
         <source>&amp;Next</source>
         <translation>&amp;Weiter</translation>
     </message>
@@ -1674,23 +1674,27 @@ Eine nichtautorisierte weitergabe der Datenbankdatei gilt als Urheberrechtsverle
     </message>
     <message>
         <location filename="../../ui/databasesyncdialog.ui" line="318"/>
-        <location filename="../../ui/databasesyncdialog.ui" line="406"/>
-        <location filename="../../ui/databasesyncdialog.ui" line="443"/>
+        <source>&lt;h3&gt;Loading image data... Please wait!&lt;/h3&gt;</source>
+        <translation>&lt;h3&gt;Lade Bilder Metadaten... Bitte warten!&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../ui/databasesyncdialog.ui" line="409"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="446"/>
         <source>html here</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="395"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="398"/>
         <source>Updates Notes</source>
         <translation>Hinweise zur Aktualisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="432"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="435"/>
         <source>Event Notes</source>
         <translation>Veranstaltungshinweise</translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="487"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="490"/>
         <source>&amp;Finish</source>
         <translation>&amp;Beenden</translation>
     </message>
