@@ -2605,7 +2605,7 @@ Dateiarchiv reduziert um %2 MiB</translation>
     <message>
         <location filename="../../widgets/mainwindow.cpp" line="1120"/>
         <source>Your software version is up to date</source>
-        <translation>Ihre Software-Version ist auf den aktuellen Stand</translation>
+        <translation>Ihre Software-Version ist aktuell</translation>
     </message>
     <message>
         <location filename="../../widgets/mainwindow.cpp" line="1125"/>
