@@ -6,8 +6,8 @@ pkgdesc="Spagyrik Datenbank Passiflora"
 arch=('i686' 'x86_64')
 url="https://github.com/joshirio/passiflora"
 license=('BSD')
-depends=('qt5-base' 'qt5-svg' 'sqlite')
-source=("https://github.com/giowck/symphytum/releases/download/v$pkgver/$pkgname-$pkgver-src.tar.gz")
+depends=('qt5-base' 'qt5-svg' 'qt5-imageformats' 'sqlite')
+source=("http://passiflora.enmed.de/files/$pkgname-$pkgver-src.tar.gz")
 md5sums=('400484e8b06d77491012989f69105c11')
 
 build() {
@@ -19,7 +19,7 @@ package() {
   cd "$srcdir"
 
   # Binary
-  install -Dm755 "$srcdir/symphytum" "${pkgdir}/usr/bin/symphytum"
+  install -Dm755 "$srcdir/passiflora" "${pkgdir}/usr/bin/passiflora"
 
   # Icons and desktop files
   install -d "${pkgdir}/usr/share/"
