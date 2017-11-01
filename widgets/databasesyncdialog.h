@@ -15,6 +15,10 @@ namespace Ui {
 class DatabaseSyncDialog;
 }
 
+#ifdef Q_OS_WIN
+class QWinTaskbarProgress;
+#endif
+
 class DatabaseSyncDialog : public QDialog
 {
     Q_OBJECT
@@ -53,6 +57,9 @@ private:
     void createImageLicensingAndDisplayResults();
 
     Ui::DatabaseSyncDialog *ui;
+#ifdef Q_OS_WIN
+    QWinTaskbarProgress *m_taskbarProgress;
+#endif
     UpdateManager *m_updateManager;
     quint64 m_latestPlantDbRevision;
     QList<UpdateManager::PlantImageMetadata*> m_plantImagesList;

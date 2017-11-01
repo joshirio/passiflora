@@ -20,9 +20,17 @@
 #include <QtCore/QFile>
 #include <QtWidgets/QApplication>
 
+#ifdef Q_OS_WIN
+#include <QtWinExtras/QWinTaskbarButton>
+#include <QtWinExtras/QWinTaskbarProgress>
+#endif
+
 DatabaseSyncDialog::DatabaseSyncDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DatabaseSyncDialog),
+#ifdef Q_OS_WIN
+    m_taskbarProgress(nullptr),
+#endif
     m_updateManager(nullptr),
     m_latestPlantDbRevision(Q_UINT64_C(0))
 {
@@ -173,11 +181,32 @@ void DatabaseSyncDialog::plantImgFileDownloadStartedSlot(const QString &fileName
 void DatabaseSyncDialog::totalSyncProgressMaxStepsSlot(int t)
 {
     ui->syncTotalProgressBar->setRange(0, t);
+
+#ifdef Q_OS_WIN
+    if (m_taskbarProgress == nullptr) {
+        QWinTaskbarButton *button = new QWinTaskbarButton(this);
+        QWidget *parent = this->parentWidget();
+        if (parent)
+            button->setWindow(parent->windowHandle());
+
+        m_taskbarProgress = button->progress();
+
+    }
+    m_taskbarProgress->setValue(0);
+    m_taskbarProgress->setRange(0, t);
+    m_taskbarProgress->setVisible(true);
+#endif
 }
 
 void DatabaseSyncDialog::incrementTotalProgressStepSlot()
 {
     ui->syncTotalProgressBar->setValue(ui->syncTotalProgressBar->value() + 1);
+
+#ifdef Q_OS_WIN
+    if (m_taskbarProgress) {
+        m_taskbarProgress->setValue(ui->syncTotalProgressBar->value() + 1);
+    }
+#endif
 }
 
 void DatabaseSyncDialog::plantImgWriteFileErrorSlot()
@@ -190,6 +219,13 @@ void DatabaseSyncDialog::allImageFilesDownloadedSlot()
     ui->syncTotalProgressBar->setRange(0, 0);
     ui->syncProgressBar->setRange(0, 0);
     ui->syncStatusLabel->setText(tr("Loading changes..."));
+
+#ifdef Q_OS_WIN
+    if (m_taskbarProgress) {
+        m_taskbarProgress->reset();
+        m_taskbarProgress->setVisible(false);
+    }
+#endif
 
     m_updateManager->requestPlantDbChangelogFile();
 }
