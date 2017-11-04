@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Spagyrik Datenbank Passiflora"
-#define MyAppVersion "2.2"
+#define MyAppVersion "2.3"
 #define MyAppPublisher "Passiflora Developers"
 #define MyAppURL "http://passiflora.enmed.de"
 #define MyAppExeName "passiflora.exe"
@@ -22,7 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir=C:\Users\giowck\Desktop
-OutputBaseFilename=passiflora-2.2-setup
+OutputBaseFilename=passiflora-2.3-setup
 Compression=lzma
 SolidCompression=yes
 

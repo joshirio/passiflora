@@ -16,7 +16,7 @@
 // Static variables initialization
 //-----------------------------------------------------------------------------
 
-QString DefinitionHolder::VERSION = "2.2";
+QString DefinitionHolder::VERSION = "2.3";
 QString DefinitionHolder::NAME = "Spagyrik Datenbank Passiflora";
 QString DefinitionHolder::COMPANY = "enmed";
 QString DefinitionHolder::DOMAIN_NAME = "enmed.de";
@@ -27,7 +27,7 @@ QString DefinitionHolder::PLANT_DB_CHANGELOG = "http://passiflora.enmed.de/updat
 QString DefinitionHolder::PLANT_DB_IMG_URL = "http://passiflora.enmed.de/updates_raw/images/";
 QString DefinitionHolder::PLANT_DB_IMG_META_URL = "http://passiflora.enmed.de/updates_raw/plantimagesmeta.json";
 QString DefinitionHolder::DOWNLOAD_URL = "http://passiflora.enmed.de/update/";
-int DefinitionHolder::SOFTWARE_BUILD = 9;
+int DefinitionHolder::SOFTWARE_BUILD = 10;
 int DefinitionHolder::DATABASE_VERSION = 2;
 bool DefinitionHolder::APP_STORE = false;
 QString DefinitionHolder::COPYRIGHT =
