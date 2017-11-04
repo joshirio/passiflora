@@ -41,6 +41,10 @@ TableView::TableView(QWidget *parent) :
     QHeaderView *verticalHeader = this->verticalHeader();
     verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
     verticalHeader->setDefaultSectionSize(verticalHeader->defaultSectionSize() * 4);
+
+#ifdef Q_OS_WIN
+    setStyleSheet("QTableView { selection-color: palette(text); }"); //fix wrong text color
+#endif
 }
 
 void TableView::setModel(QAbstractItemModel *model)

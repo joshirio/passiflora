@@ -58,6 +58,10 @@ FormView::FormView(QWidget *parent) :
 {
     initFormView();
     createContextActions();
+
+#ifdef Q_OS_WIN
+    setStyleSheet("font-size: 13px;");
+#endif
 }
 
 FormView::~FormView()
