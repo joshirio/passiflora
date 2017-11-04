@@ -1678,113 +1678,113 @@ Eine nichtautorisierte weitergabe der Datenbankdatei gilt als Urheberrechtsverle
         <translation>&lt;h3&gt;Lade Bilder Metadaten... Bitte warten!&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="409"/>
-        <location filename="../../ui/databasesyncdialog.ui" line="446"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="424"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="454"/>
         <source>html here</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="398"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="413"/>
         <source>Updates Notes</source>
         <translation>Hinweise zur Aktualisierung</translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="435"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="443"/>
         <source>Event Notes</source>
         <translation>Veranstaltungshinweise</translation>
     </message>
     <message>
-        <location filename="../../ui/databasesyncdialog.ui" line="490"/>
+        <location filename="../../ui/databasesyncdialog.ui" line="502"/>
         <source>&amp;Finish</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="85"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="93"/>
         <source>Software outdated!</source>
         <translation>Software veraltet!</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="86"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="94"/>
         <source>The new database format requires a newer software version.&lt;br /&gt;Please update your software version first!</source>
         <translation>Das neue Datenbankformat benötigt eine neuere Software-Version.&lt;br /&gt;Bitte aktualisieren Sie Ihre Software-Version zuerst!</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="89"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="97"/>
         <source>&lt;br /&gt;&lt;br /&gt;Go to menu: &lt;b&gt;Help-&gt;Check for updates&lt;/b&gt;</source>
         <translation>&lt;br /&gt;&lt;br /&gt;Gehe zum Menü: &lt;b&gt;Hilfe-&gt;Nach Aktualisierungen suchen&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="91"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="99"/>
         <source>&lt;br /&gt;&lt;br /&gt;Go to menu: &lt;b&gt;%1-&gt;Check for updates&lt;/b&gt;</source>
         <translation>&lt;br /&gt;&lt;br /&gt;Gehe zum Menü: &lt;b&gt;%1-&gt;Nach Aktualisierungen suchen&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="99"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="107"/>
         <source>data.db</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="117"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="125"/>
         <source>Checking images...</source>
         <translation>Prüfe Bilder...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="124"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="132"/>
         <source>Parsing images...</source>
         <translation>Lese Bilder...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="135"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="143"/>
         <source>Filed to open image metadata json file. </source>
         <translation>Fehler beim Öffnen der metadata json Datei. </translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="142"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="150"/>
         <source>Invalid json format. </source>
         <translation>Ungültiger json Format. </translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="151"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="159"/>
         <source>Plant Database Metadata Error</source>
         <translation>Pflanzendatenbank Metadata Fehler</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="152"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="160"/>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="192"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="221"/>
         <source>Loading changes...</source>
         <translation>Lade Änderungen...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="204"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="240"/>
         <source>Loading events...</source>
         <translation>Lade Events...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="266"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="302"/>
         <source>Checking revision...</source>
         <translation>Prüfe Revision...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="323"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="359"/>
         <source>Removing old files...</source>
         <translation>Entferne alte Dateien...</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="332"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="368"/>
         <source>Download complete!</source>
         <translation>Download fertig!</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="333"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="369"/>
         <source>Completed!</source>
         <translation>Fertig!</translation>
     </message>
     <message>
-        <location filename="../../widgets/databasesyncdialog.cpp" line="352"/>
+        <location filename="../../widgets/databasesyncdialog.cpp" line="392"/>
         <source>&quot;&gt;Click&lt;br /&gt;to view&lt;/a&gt;&lt;/td&gt;</source>
         <translation>&quot;&gt;Ansehen&lt;br /&gt;durch Klicken&lt;/a&gt;&lt;/td&gt;</translation>
     </message>
@@ -2117,44 +2117,44 @@ Optional, können zusätzliche Kopfzeilen hinzugefügt werden:</translation>
 <context>
     <name>FormView</name>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="230"/>
-        <location filename="../../views/formview/formview.cpp" line="252"/>
-        <location filename="../../views/formview/formview.cpp" line="271"/>
+        <location filename="../../views/formview/formview.cpp" line="231"/>
+        <location filename="../../views/formview/formview.cpp" line="253"/>
+        <location filename="../../views/formview/formview.cpp" line="272"/>
         <source>Record %1 of %2</source>
         <translation>Eintrag %1 von %2</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1538"/>
+        <location filename="../../views/formview/formview.cpp" line="1559"/>
         <source>New field</source>
         <translation>Neues Feld</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1539"/>
+        <location filename="../../views/formview/formview.cpp" line="1560"/>
         <source>Duplicate field</source>
         <translation>Feld Duplizieren</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1540"/>
+        <location filename="../../views/formview/formview.cpp" line="1561"/>
         <source>Delete field</source>
         <translation>Feld löschen</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1541"/>
+        <location filename="../../views/formview/formview.cpp" line="1562"/>
         <source>Modify field</source>
         <translation>Feld Ändern</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1542"/>
+        <location filename="../../views/formview/formview.cpp" line="1563"/>
         <source>New record</source>
         <translation>Neuer Eintrag</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1543"/>
+        <location filename="../../views/formview/formview.cpp" line="1564"/>
         <source>Duplicate record</source>
         <translation>Eintrag duplizieren</translation>
     </message>
     <message>
-        <location filename="../../views/formview/formview.cpp" line="1544"/>
+        <location filename="../../views/formview/formview.cpp" line="1565"/>
         <source>Delete record</source>
         <translation>Eintrag löschen</translation>
     </message>
@@ -3067,56 +3067,97 @@ Dateiarchiv reduziert um %2 MiB</translation>
     </message>
     <message>
         <location filename="../../ui/preferencesdialog.ui" line="188"/>
-        <source>Main Window</source>
-        <translation>Hauptfenster</translation>
-    </message>
-    <message>
-        <location filename="../../ui/preferencesdialog.ui" line="194"/>
-        <source>Use the dark Ambiance theme from Ubuntu for the main toolbar</source>
-        <translation>Benutze das Dark Ambiance Thema aus Ubuntu für die Symbolleiste</translation>
-    </message>
-    <message>
-        <location filename="../../ui/preferencesdialog.ui" line="197"/>
-        <source>Dark toolbar (Ambiance theme)</source>
-        <translation>Dunkle Symbolleiste (Ambiance Thema)</translation>
-    </message>
-    <message>
-        <location filename="../../ui/preferencesdialog.ui" line="207"/>
         <source>Form View</source>
         <translation>Formular-Ansicht</translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="215"/>
+        <location filename="../../ui/preferencesdialog.ui" line="194"/>
         <source>Background color:</source>
         <translation>Hintergrundfarbe:</translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="226"/>
+        <location filename="../../ui/preferencesdialog.ui" line="205"/>
+        <location filename="../../ui/preferencesdialog.ui" line="224"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="279"/>
+        <location filename="../../ui/preferencesdialog.ui" line="213"/>
+        <source>Font size:</source>
+        <translation>Schriftgröße:</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="229"/>
+        <source>System</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="234"/>
+        <source>16px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="239"/>
+        <source>15px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="244"/>
+        <source>14px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="249"/>
+        <source>13px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="254"/>
+        <source>12px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="259"/>
+        <source>11px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="264"/>
+        <source>10px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="269"/>
+        <source>9px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="274"/>
+        <source>8px</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferencesdialog.ui" line="312"/>
         <source>Tools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="272"/>
+        <location filename="../../ui/preferencesdialog.ui" line="305"/>
         <source>Adanced Properties</source>
         <translation>Fortgeschrittene Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="287"/>
+        <location filename="../../ui/preferencesdialog.ui" line="320"/>
         <source>&lt;b&gt;Software Reset&lt;/b&gt;:&lt;br&gt;Reset all settings and delete all data from local database</source>
         <translation>&lt;b&gt;Software-Reset&lt;/b&gt;:&lt;br&gt;Alle Einstellungen und Daten aus der lokalen Datenbank zurücksetzen (löschen)</translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="297"/>
+        <location filename="../../ui/preferencesdialog.ui" line="330"/>
         <source>Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../ui/preferencesdialog.ui" line="359"/>
+        <location filename="../../ui/preferencesdialog.ui" line="392"/>
         <source>&amp;Close</source>
         <translation>&amp;Schließen</translation>
     </message>
@@ -3226,17 +3267,17 @@ Dateiarchiv reduziert um %2 MiB</translation>
         <translation>%1 Dateien</translation>
     </message>
     <message>
-        <location filename="../../widgets/printdialog.cpp" line="530"/>
+        <location filename="../../widgets/printdialog.cpp" line="535"/>
         <source>&lt;p class=&quot;header&quot;&gt;The contained images are under the following licensing conditions: &lt;br /&gt;</source>
         <translation>&lt;p class=&quot;header&quot;&gt;Die enthaltenen Bilder stehen unter folgenden Lizenzbedingungen: &lt;br /&gt;</translation>
     </message>
     <message>
-        <location filename="../../widgets/printdialog.cpp" line="542"/>
+        <location filename="../../widgets/printdialog.cpp" line="547"/>
         <source>Filed to open image metadata json file. </source>
         <translation>Fehler beim Öffnen der metadata json Bilder-Datei. </translation>
     </message>
     <message>
-        <location filename="../../widgets/printdialog.cpp" line="549"/>
+        <location filename="../../widgets/printdialog.cpp" line="554"/>
         <source>Invalid json format. </source>
         <translation>Ungültiger json Format. </translation>
     </message>
