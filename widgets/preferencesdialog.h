@@ -50,7 +50,6 @@ private slots:
     void updatesComboBoxChanged();
     void softwareResetButtonClicked();
     void formViewColorComboChanged();
-    void darkToolbarAmbianceCheckChanged();
     
 private:
     void initSettings();

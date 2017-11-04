@@ -60,9 +60,9 @@ bool ActivationManager::checkLicenseKey(const QString &keyString,
 
     QByteArray cH, rS, eS;
     cH = QCryptographicHash::hash(
-                QCryptographicHash::hash(nameString.toLower().toLatin1(),
+                QCryptographicHash::hash(nameString.toLower().toUtf8(),
                                          QCryptographicHash::Sha1).toHex()
-                .append(QCryptographicHash::hash(emailString.toLower().toLatin1(),
+                .append(QCryptographicHash::hash(emailString.toLower().toUtf8(),
                                                  QCryptographicHash::Sha1).toHex()),
                 QCryptographicHash::Sha1).toHex();
 

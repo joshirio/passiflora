@@ -47,20 +47,11 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
             this, SLOT(softwareResetButtonClicked()));
     connect(ui->formViewColorCombo, SIGNAL(activated(int)),
             this, SLOT(formViewColorComboChanged()));
-    connect(ui->darkToolbarAmbianceCheckBox, SIGNAL(clicked()),
-            this, SLOT(darkToolbarAmbianceCheckChanged()));
 
     if (DefinitionHolder::APP_STORE) {
         //disable updates
         ui->updateGroupBox->setEnabled(false);
     }
-
-#ifndef Q_OS_LINUX
-    //if not running linux, hide dark toolbar (ambiance) option
-    //NOTE: if more option are added to the main window group box
-    //      update this, else valid option are hidden
-    ui->mainWindowGroupBox->setVisible(false);
-#endif //Q_OS_LINUX
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -114,15 +105,6 @@ void PreferencesDialog::formViewColorComboChanged()
     m_appearanceChanged = true;
 }
 
-void PreferencesDialog::darkToolbarAmbianceCheckChanged()
-{
-    bool checked = ui->darkToolbarAmbianceCheckBox->isChecked();
-
-    m_settingsManager->saveProperty("linuxDarkAmbianceToolbar", "mainWindow", checked);
-
-    m_appearanceChanged = true;
-}
-
 
 //-----------------------------------------------------------------------------
 // Private
@@ -171,10 +153,4 @@ void PreferencesDialog::loadSettings()
     int colorCodeIndex = m_settingsManager->restoreProperty(
                 "backgroundColorIndex", "formView").toInt();
     ui->formViewColorCombo->setCurrentIndex(colorCodeIndex);
-
-#ifdef Q_OS_LINUX
-    //dark toolbar ambiance style
-    if (m_settingsManager->restoreProperty("linuxDarkAmbianceToolbar", "mainWindow").toBool())
-        ui->darkToolbarAmbianceCheckBox->setChecked(true);
-#endif //Q_OS_LINUX
 }
