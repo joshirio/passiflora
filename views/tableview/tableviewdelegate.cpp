@@ -147,6 +147,8 @@ QWidget* TableViewDelegate::createEditor(QWidget *parent, const QStyleOptionView
                 s.replace("\\comma", ",");
                 s.replace("\\colon", ":");
                 s.replace("\\semicolon", ";");
+                s.replace("\\doublequote", "\"");
+                s.replace("\\singlequote", "'");
                 c->addItem(s);
             }
         }
@@ -722,6 +724,8 @@ void TableViewDelegate::paintComboboxType(QPainter *painter,
         itemString.replace("\\comma", ",");
         itemString.replace("\\colon", ":");
         itemString.replace("\\semicolon", ";");
+        itemString.replace("\\doublequote", "\"");
+        itemString.replace("\\singlequote", "'");
     }
 
     opt.text = itemString;
