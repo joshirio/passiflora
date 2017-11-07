@@ -132,9 +132,6 @@ void CollectionListView::deleteCollection()
     //delete metadata and tables
     MetadataEngine::getInstance().deleteCollection(collectionId);
 
-    //delete from model
-    m_model->removeRow(currentIndex().row());
-
     //delete settings about collection's column positions in TableView
     SettingsManager s;
     QString settingsKey = QString("collection_") + QString::number(collectionId);
@@ -143,21 +140,28 @@ void CollectionListView::deleteCollection()
     //reset cached id
     m_currentCollectionId = 0;
 
+    //if last collection, set current collection to invalid
+    if (m_model->rowCount() == 1) {
+        MetadataEngine::getInstance().setCurrentCollectionId(0);
+    }
+    //delete from model
+    m_model->removeRow(currentIndex().row());
+
     //clear undo stack since this action is not undoable
     QUndoStack *stack = MainWindow::getUndoStack();
     if (stack) stack->clear();
+
+    //FIXME: temporary workaround for listview not updating the items
+    //needs investigation, caused by migration from Qt4 to Qt5
+    //NOTE: without this m_model->rowCount() returns 1 even if empty (no collections)
+    //this is a bug in the model or something changed in MVC Qt5
+    this->detachModel();
+    this->attachModel();
 
     //set first collection as current one
     QModelIndex first = m_model->index(0, 1);
     if (first.isValid())
         setCurrentIndex(first);
-    else
-        MetadataEngine::getInstance().setCurrentCollectionId(0); //set invalid
-
-    //FIXME: temporary workaround for listview not updating the items
-    //needs investigation, caused by migration from Qt4 to Qt5
-    this->detachModel();
-    this->attachModel();
 }
 
 void CollectionListView::attachModel()
