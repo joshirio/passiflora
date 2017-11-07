@@ -45,6 +45,9 @@ public:
     /** Get the last edited column (field) */
     int getLastEditColumn();
 
+    /** Reload default row size from settings */
+    void reloadRowSize();
+
 signals:
     /** This signal is emitted only if the user changed something by using
      *  the delegate's editor. This means: user finished editing manually
@@ -78,6 +81,7 @@ private:
 
     void restoreSectionOrder();
     void restoreSectionSizes();
+    void restoreRowSize();
 
     TableViewDelegate *m_delegate;
     int m_lastUsedRow; /**< Keep track of last focused row */

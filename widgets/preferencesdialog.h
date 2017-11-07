@@ -51,6 +51,7 @@ private slots:
     void softwareResetButtonClicked();
     void formViewColorComboChanged();
     void formViewFontSizeComboChanged();
+    void tableViewRowSizeSpinChanged();
     
 private:
     void initSettings();

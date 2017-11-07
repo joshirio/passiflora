@@ -37,11 +37,6 @@ TableView::TableView(QWidget *parent) :
     //passiflora disables editing
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    //passiflora, increase row height
-    QHeaderView *verticalHeader = this->verticalHeader();
-    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
-    verticalHeader->setDefaultSectionSize(verticalHeader->defaultSectionSize() * 4);
-
 #ifdef Q_OS_WIN
     setStyleSheet("QTableView { selection-color: palette(text); }"); //fix wrong text color
 #endif
@@ -59,6 +54,7 @@ void TableView::setModel(QAbstractItemModel *model)
         //init view
         restoreSectionOrder();
         restoreSectionSizes();
+        restoreRowSize();
         initView();
     }
 }
@@ -71,6 +67,11 @@ int TableView::getLastEditRow()
 int TableView::getLastEditColumn()
 {
     return m_lastUsedColumn;
+}
+
+void TableView::reloadRowSize()
+{
+    restoreRowSize();
 }
 
 
@@ -328,4 +329,19 @@ void TableView::restoreSectionSizes()
         int visualIndex = header->visualIndex(i+1); //+1 because of _id column 0
         header->resizeSection(visualIndex, sectionSizes.at(i));
     }*/
+}
+
+void TableView::restoreRowSize()
+{
+    QHeaderView *verticalHeader = this->verticalHeader();
+    SettingsManager s;
+    int rowSize = s.restoreProperty("rowSize", "tableView").toInt();
+    static int defaultRowSize = verticalHeader->defaultSectionSize(); //static, remember the first value
+    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+
+    if (rowSize) {
+        verticalHeader->setDefaultSectionSize(defaultRowSize * rowSize);
+    } else {
+        verticalHeader->setDefaultSectionSize(defaultRowSize * 4); //default value
+    }
 }
