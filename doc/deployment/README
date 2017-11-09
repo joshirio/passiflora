@@ -1,0 +1,49 @@
+Deployment
+==========
+
+Build Passiflora:
+
+1. Check and update translation files if needed
+2. Check DefinitionHolder
+3. Check authors description in about dialog, see AUTHORS file
+4. Create archive of last commit:
+   git archive -o passiflora-1.0-src.tar.gz HEAD
+5. Uncompress and open project with release config
+6. Compile
+
+Windows:
+1. Open and compile passiflora.iss after review
+2. The missing .DLL files can be copied from the Qt install or use windeployqt
+
+macOS:
+1. Use 'qmake -spec macx-clang Passiflora.pro' to generate Makefile
+2. Use macdeployqt
+3. Create a DMG follow this: http://mac101.net/content/how-to/how-to-create-dmg-art-for-fancy-application-installations/
+   (alt link: https://web.archive.org/web/20150423212042/http://mac101.net/content/how-to/how-to-create-dmg-art-for-fancy-application-installations/)
+
+Ubuntu:
+1. Copy deb dir from installers dir
+2. Update DEBIAN/control as needed
+3. Copy executable to usr/bin
+4. Create deb package
+   sudo chown root:root -R deb/
+   sudo chmod -R 0755 deb/
+   dpkg -b deb/ passiflora-1.0-x86_64.deb
+
+Archlinux:
+1. Adjust PKGBUILD script from the installers directory
+2. copy source tarball to current build directory
+3. run updpkgsums to update checksums for source tarball
+4. makepkg --printsrcinfo > .SRCINFO 
+5. run makepkg -i to build pacman package and to install it
+
+AppImage:
+1. Use Ubuntu 14.04 LTS
+2. Install missing deps:
+   sudo apt install build-essentials mesa-common-dev libglu1-mesa-dev libmysqlclient18 libpq5 libodbc1 libsybdb5
+3. Download Qt installer from qt.io/download
+4. Compile project in release mode
+5. Download linuxdeployqt from https://github.com/probonopd/linuxdeployqt
+6. Create myappimg folder on desktop and place passiflora.desktop file taken from stuff/installers/deb and passiflora binary inside same directory
+7. Create appimage with:
+   ./linuxdeployqt-continuous-x86_64.AppImage /home/user/Desktop/myappimg/passiflora.desktop  -bundle-non-qt-libs -no-translations -appimage -qmake=/home/user/Qt/5.9.2/gcc_64/bin/qmake
