@@ -1625,7 +1625,7 @@ basierend auf den Quellcode der &lt;a href=&quot;https://giowck.github.io/symphy
 &lt;br /&gt;&lt;br /&gt;
 Die Pflanzendatenbank ist nicht Teil der Software und steht nur Benutzern mit einer gültigen Lizenz zur verfügung.
 &lt;br /&gt;&lt;br /&gt;
-Urheber der Inhalte der Pflanzendatenbank sind::&lt;br /&gt;
+Urheber der Inhalte der Pflanzendatenbank sind:&lt;br /&gt;
 HP Hans Gerhard Wicklein und Mag. Helene Liselotte Widmann&lt;br /&gt;
 Copyright &amp;copy; 2017 &lt;a href=&quot;http://passiflora.enmed.de&quot;&gt;passiflora.enmed.de&lt;/a&gt;
 &lt;br /&gt;&lt;br /&gt;
