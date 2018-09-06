@@ -210,7 +210,7 @@ void PrintDialog::print(bool pdf, QString pdfOutputPath)
                       .arg(QDateTime::currentDateTime().toString())
                       .arg(licenseUserName)
                       .arg(QDateTime::currentDateTime().toString("yyyy"))
-                      .arg(tr("HP Hans Gerhard Wicklein and Mag. Helene Liselotte Widmann")));
+                      .arg(tr("HP Hans Gerhard Wicklein")));
 
     //get all record to print
     QString recordListString;
