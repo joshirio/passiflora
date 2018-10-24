@@ -36,7 +36,7 @@ class PreferencesDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit PreferencesDialog(QWidget *parent = 0);
+    explicit PreferencesDialog(QWidget *parent = nullptr);
     ~PreferencesDialog();
 
     /** Return whether the software reset button was clicked */
@@ -51,6 +51,7 @@ private slots:
     void softwareResetButtonClicked();
     void formViewColorComboChanged();
     void formViewFontSizeComboChanged();
+    void formViewFontComboChanged();
     void tableViewRowSizeSpinChanged();
     
 private:
