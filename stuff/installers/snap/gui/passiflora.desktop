@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Name=Passiflora
+GenericName=Passiflora
+Exec=passiflora
+Icon=${SNAP}/meta/gui/passiflora.png
+Type=Application
+StartupNotify=false
+Terminal=false
+Categories=Office;

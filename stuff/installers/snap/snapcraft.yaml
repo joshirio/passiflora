@@ -1,0 +1,86 @@
+name: passiflora
+version: '2.3'
+summary: Spagyrik Datenbank Passiflora
+description: |
+  Passiflora is a database software for plants (Spagyric), requires a software activation key to run.
+  Visit http://passiflora.enmed.de/ for more info.
+
+icon: gui/passiflora.png
+grade: stable
+confinement: strict
+base: core18 # based on ubuntu 18.04 LTS
+
+apps:
+  passiflora:
+    command: desktop-launch passiflora
+    desktop: usr/share/applications/passiflora.desktop
+    environment:
+      DISABLE_WAYLAND: 1 # disable wayland (not ready yet), comment out this line to enable full wayland support
+    plugs:
+      - home
+      - network
+      - opengl
+      - removable-media
+      - unity7
+      - x11
+      - wayland
+      - desktop
+      - desktop-legacy
+
+parts:
+  passiflora:
+    source: https://github.com/joshirio/passiflora.git
+    source-tag: v2.3
+    plugin: qmake
+    qt-version: qt5
+    options:
+      - CONFIG+=release
+    override-build: | # enable snap deployment target and set app store
+      #sed -i 's#bool DefinitionHolder::SNAP_LINUX = false;#bool DefinitionHolder::SNAP_LINUX = true;#' utils/definitionholder.cpp
+      #sed -i 's#bool DefinitionHolder::APP_STORE = false;#bool DefinitionHolder::APP_STORE = true;#' utils/definitionholder.cpp
+      snapcraftctl build # call default snapcraft build
+      #custom install steps (formerly known as install but now deprecated)
+      mkdir $SNAPCRAFT_PART_INSTALL/bin
+      cp passiflora $SNAPCRAFT_PART_INSTALL/bin
+      cp -R stuff/installers/deb/usr $SNAPCRAFT_PART_INSTALL/
+      sed -i 's|Icon=passiflora|Icon=${SNAP}/usr/share/pixmaps/passiflora.png|g' $SNAPCRAFT_PART_INSTALL/usr/share/applications/passiflora.desktop
+    build-packages:
+      - libqt5svg5-dev
+    stage-packages:
+      - qttranslations5-l10n
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5network5
+      - libqt5sql5-sqlite
+      - libqt5svg5
+      - libqt5printsupport5
+      - qtwayland5
+      - zlib1g
+      - dbus
+    after: [desktop-qt5]
+
+  desktop-qt5: # custom define becasue no remote parts are supported when using a base (at least not on 16.04), https://github.com/ubuntu/snapcraft-desktop-helpers
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    build-packages:
+      – qtbase5-dev
+      – dpkg-dev
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
+      - locales-all
+
