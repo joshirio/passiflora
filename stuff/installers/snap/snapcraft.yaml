@@ -10,12 +10,31 @@ grade: stable
 confinement: strict
 base: core18 # based on ubuntu 18.04 LTS
 
+plugs: # plugs for theming, font settings, cursor and to use gtk3 file chooser
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes:gtk-3-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes:icon-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes:sounds-themes
+
 apps:
   passiflora:
-    command: desktop-launch passiflora
+    adapter: full
+    command: bin/passiflora -style fusion
+    command-chain:
+      - bin/desktop-launch
+      - bin/gtk3-env-launch
     desktop: usr/share/applications/passiflora.desktop
     environment:
       DISABLE_WAYLAND: 1 # disable wayland (not ready yet), comment out this line to enable full wayland support
+      #QT_QPA_PLATFORMTHEME: gtk3 # gtk-common-themes support, currently overrided by desktop-launch(`appmenu-qt5`), implement in snap launcher instead
     plugs:
       - home
       - network
@@ -24,10 +43,18 @@ apps:
       - unity7
       - x11
       - wayland
+      - gsettings # allow wayland apps access system theme settings
       - desktop
       - desktop-legacy
 
 parts:
+  launchers: # custom launcher to set QT_QPA_PLATFORMTHEME=gtk3 correctly
+    source: local/launchers
+    plugin: dump
+    organize:
+      '*': bin/
+    stage:
+      - -bin/README.*
   passiflora:
     source: https://github.com/joshirio/passiflora.git
     source-tag: v2.3
@@ -57,6 +84,8 @@ parts:
       - qtwayland5
       - zlib1g
       - dbus
+      # for theming, font settings, cursor and to use gtk3 file chooser
+      - qt5-gtk-platformtheme 
     after: [desktop-qt5]
 
   desktop-qt5: # custom define becasue no remote parts are supported when using a base (at least not on 16.04), https://github.com/ubuntu/snapcraft-desktop-helpers
