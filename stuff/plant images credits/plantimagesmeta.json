@@ -1807,13 +1807,23 @@
         },
         {
             "name":"Artemisia annua",
-            "license html":" Kristian Peters -- <a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Fabelfroh\">Fabelfroh<\/a> 11:40, 16 September 2007 (UTC), <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Artemisia_annua_detail.jpeg\">Artemisia annua detail<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a> ",
+            "license html":"Kristian Peters -- <a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Fabelfroh\">Fabelfroh<\/a> 11:40, 16 September 2007 (UTC), <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Artemisia_annua_detail.jpeg\">Artemisia annua detail<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a> ",
             "database file name":"eb012992347b9e7215fa7649b1fc9dfc.jpeg"
         },
         {
             "name":"Artemisia annua",
-            "license html":" Kristian Peters -- <a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Fabelfroh\">Fabelfroh<\/a> 11:39, 16 September 2007 (UTC), <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Artemisia_annua.jpeg\">Artemisia annua<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a> ",
+            "license html":"Kristian Peters -- <a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Fabelfroh\">Fabelfroh<\/a> 11:39, 16 September 2007 (UTC), <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Artemisia_annua.jpeg\">Artemisia annua<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a> ",
             "database file name":"7509e92e0ed5de6eb365d32896bc2a2c.jpeg"
+        },
+        {
+            "name":"Rhodiola rosea",
+            "license html":"Opio\u0142a Jerzy, <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Rhodiola_rosea_a2.jpg\">Rhodiola rosea a2<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a>",
+            "database file name":"1afead0de7d1658eeded44339296d97b.jpg"
+        },
+        {
+            "name":"Rhodiola rosea",
+            "license html":"<a href=\"https:\/\/commons.wikimedia.org\/wiki\/User:Hedwig_Storch\">Hedwig Storch<\/a>, <a href=\"https:\/\/commons.wikimedia.org\/wiki\/File:Rosenwurz_(Rhodiola_rosea)_5727.JPG\">Rosenwurz (Rhodiola rosea) 5727<\/a>, <a href=\"https:\/\/creativecommons.org\/licenses\/by-sa\/3.0\/legalcode\" rel=\"license\">CC BY-SA 3.0<\/a>",
+            "database file name":"9cdd04bce20ddb6b18cb18243d088bd9.jpeg"
         }
     ]
 }
